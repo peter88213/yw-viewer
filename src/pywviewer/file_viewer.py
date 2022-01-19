@@ -20,6 +20,7 @@ class FileViewer():
 
     Show titles, descriptions, and contents in a text box.
     """
+    SCENE_DIVIDER = '\t* * *'
 
     def __init__(self, fileName='', **kwargs):
         if fileName:
@@ -36,6 +37,12 @@ class FileViewer():
         # change width height
         self.init_dir = os.path.dirname(fileName)
         self.novel = None
+        self.properties = None
+        self.chapterTitles = None
+        self.chapterDescriptions = None
+        self.sceneTitles = None
+        self.sceneDescriptions = None
+        self.sceneContents = None
 
     def open_file(self, fileName=''):
 
@@ -48,132 +55,111 @@ class FileViewer():
             self.novel = Yw7File(fileName)
             self.novel.read()
 
+            # Get the project title.
+
             if self.novel.title:
-                text = self.novel.title
+                projectTitle = self.novel.title
 
             else:
-                text = 'Untitled yWriter project'
+                projectTitle = 'Untitled yWriter project'
 
-            self.mainWindow.title(text)
+            self.mainWindow.title(projectTitle)
 
-            self.show_project_description()
+            # Get project properties.
 
-    def show_project_description(self):
+            properties = []
 
-        if self.novel is not None:
+            if self.novel.author:
+                properties.append('Author: ' + self.novel.author)
+
+            else:
+                properties.append('(Unknown author)')
+
+            properties.append('Description:')
 
             if self.novel.desc:
-                text = self.novel.desc
+                properties.append(self.novel.desc)
 
             else:
-                text = '(No project description available)'
+                properties.append('(No project description available)')
 
-            self.textBox.delete('1.0', END)
-            # remove the previous content
-            self.textBox.insert('1.0', text)
-            # add new data from file to text box
+            self.properties = '\n'.join(properties)
 
-    def show_chapter_titles(self):
+            self.show_text(self.properties)
 
-        if self.novel is not None:
-            titles = []
-
-            for chId in self.novel.srtChapters:
-
-                if self.novel.chapters[chId].title:
-                    titles.append(self.novel.chapters[chId].title)
-
-            text = '\n'.join(titles)
-
-            if not text:
-                text = '(No chapter titles available)'
-
-            self.textBox.delete('1.0', END)
-            # remove the previous content
-            self.textBox.insert('1.0', text)
-            # add new data from file to text box
-
-    def show_chapter_descriptions(self):
-
-        if self.novel is not None:
-            descriptions = []
+            chapterTitles = []
+            chapterDescriptions = []
+            sceneTitles = []
+            sceneDescriptions = []
+            sceneContents = []
 
             for chId in self.novel.srtChapters:
 
-                if self.novel.chapters[chId].desc:
-                    descriptions.append(self.novel.chapters[chId].desc)
+                if self.novel.chapters[chId].chType == 0 and not self.novel.chapters[chId].isUnused:
 
-            text = '\n'.join(descriptions)
+                    # Get chapter titles.
 
-            if not text:
-                text = '(No chapter descriptions available)'
+                    if self.novel.chapters[chId].title:
+                        chapterTitles.append(self.novel.chapters[chId].title)
+                        sceneHeading = '\n\t' + self.novel.chapters[chId].title + '\n'
 
-            self.textBox.delete('1.0', END)
-            # remove the previous content
-            self.textBox.insert('1.0', text)
-            # add new data from file to text box
+                    # Get chapter descriptions.
 
-    def show_scene_titles(self):
+                    if self.novel.chapters[chId].desc:
+                        chapterDescriptions.append('\n\t' + self.novel.chapters[chId].title + '\n')
+                        chapterDescriptions.append(self.novel.chapters[chId].desc)
+
+                    for scId in self.novel.chapters[chId].srtScenes:
+
+                        if not (self.novel.scenes[scId].isUnused or self.novel.scenes[scId].isNotesScene or self.novel.scenes[scId].isTodoScene):
+
+                            # Get scene titles.
+
+                            if self.novel.scenes[scId].title:
+                                sceneTitles.append(self.novel.scenes[scId].title)
+
+                            # Get scene descriptions.
+
+                            if self.novel.scenes[scId].desc:
+                                sceneDescriptions.append(sceneHeading)
+                                sceneDescriptions.append(self.novel.scenes[scId].desc)
+
+                            # Get scene contents.
+
+                            if self.novel.scenes[scId].sceneContent:
+                                sceneContents.append(sceneHeading)
+                                sceneContents.append(self.novel.scenes[scId].sceneContent)
+
+                            sceneHeading = self.SCENE_DIVIDER
+
+            self.chapterTitles = '\n'.join(chapterTitles)
+
+            if not self.chapterTitles:
+                self.chapterTitles = '(No chapter titles available)'
+
+            self.chapterDescriptions = '\n'.join(chapterDescriptions)
+
+            if not self.chapterDescriptions:
+                self.chapterDescriptions = '(No chapter descriptions available)'
+
+            self.sceneTitles = '\n'.join(sceneTitles)
+
+            if not self.sceneTitles:
+                self.sceneTitles = '(No scene titles available)'
+
+            self.sceneDescriptions = '\n'.join(sceneDescriptions)
+
+            if not self.sceneDescriptions:
+                self.sceneDescriptions = '(No scene descriptions available)'
+
+            self.sceneContents = '\n'.join(sceneContents)
+
+            if not self.sceneContents:
+                self.sceneContents = '(No scene contents available)'
+
+    def show_text(self, text):
 
         if self.novel is not None:
-            titles = []
-
-            for chId in self.novel.srtChapters:
-
-                for scId in self.novel.chapters[chId].srtScenes:
-
-                    if self.novel.scenes[scId].title:
-                        titles.append(self.novel.scenes[scId].title)
-
-            text = '\n'.join(titles)
-
-            if not text:
-                text = '(No scene titles available)'
-
-            self.textBox.delete('1.0', END)
-            # remove the previous content
-            self.textBox.insert('1.0', text)
-            # add new data from file to text box
-
-    def show_scene_descriptions(self):
-
-        if self.novel is not None:
-            descriptions = []
-
-            for chId in self.novel.srtChapters:
-
-                for scId in self.novel.chapters[chId].srtScenes:
-
-                    if self.novel.scenes[scId].desc:
-                        descriptions.append(self.novel.scenes[scId].desc)
-
-            text = '\n'.join(descriptions)
-
-            if not text:
-                text = '(No scene descriptions available)'
-
-            self.textBox.delete('1.0', END)
-            # remove the previous content
-            self.textBox.insert('1.0', text)
-            # add new data from file to text box
-
-    def show_scene_contents(self):
-
-        if self.novel is not None:
-            contents = []
-
-            for chId in self.novel.srtChapters:
-
-                for scId in self.novel.chapters[chId].srtScenes:
-
-                    if self.novel.scenes[scId].sceneContent:
-                        contents.append(self.novel.scenes[scId].sceneContent)
-
-            text = '\n'.join(contents)
-
-            if not text:
-                text = '(No scene contents available)'
-
             self.textBox.delete('1.0', END)
             # remove the previous content
             self.textBox.insert('1.0', text)
@@ -195,7 +181,7 @@ class FileViewer():
         menubar.add_cascade(label='Project', menu=menuF)
 
         menuF.add_command(label='Open..', command=lambda: self.open_file())
-        menuF.add_command(label='Description', command=lambda: self.show_project_description())
+        menuF.add_command(label='Properties', command=lambda: self.show_text(self.properties))
         menuF.add_command(label='Close', command=lambda: self.close_file())
         menuF.add_command(label='Exit', command=self.mainWindow.quit)
 
@@ -203,16 +189,16 @@ class FileViewer():
 
         menubar.add_cascade(label='Chapters', menu=menuC)  # Top Line
 
-        menuC.add_command(label='Chapter titles', command=lambda: self.show_chapter_titles())
-        menuC.add_command(label='Chapter descriptions', command=lambda: self.show_chapter_descriptions())
+        menuC.add_command(label='Chapter titles', command=lambda: self.show_text(self.chapterTitles))
+        menuC.add_command(label='Chapter descriptions', command=lambda: self.show_text(self.chapterDescriptions))
 
         menuS = tk.Menu(menubar, title='my title', tearoff=0)
 
         menubar.add_cascade(label='Scenes', menu=menuS)  # Top Line
 
-        menuS.add_command(label='Scene titles', command=lambda: self.show_scene_titles())
-        menuS.add_command(label='Scene descriptions', command=lambda: self.show_scene_descriptions())
-        menuS.add_command(label='Scene contents', command=lambda: self.show_scene_contents())
+        menuS.add_command(label='Scene titles', command=lambda: self.show_text(self.sceneTitles))
+        menuS.add_command(label='Scene descriptions', command=lambda: self.show_text(self.sceneDescriptions))
+        menuS.add_command(label='Scene contents', command=lambda: self.show_text(self.sceneContents))
 
         self.mainWindow.config(menu=menubar)
         self.textBox = scrolledtext.ScrolledText(self.mainWindow,  height=30,

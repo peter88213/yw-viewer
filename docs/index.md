@@ -10,9 +10,9 @@ The *yw-viewer* script is mainly intended for Linux users who manage multiple yW
 
 ## Download and install
 
-[Download the latest release (version 0.1.7)](https://raw.githubusercontent.com/peter88213/yw-viewer/main/dist/yw-viewer_v0.1.7.zip)
+[Download the latest release (version 0.1.8)](https://raw.githubusercontent.com/peter88213/yw-viewer/main/dist/yw-viewer_v0.1.8.zip)
 
-- Unzip the downloaded zipfile "yw-viewer_v0.1.7.zip" into a new folder.
+- Unzip the downloaded zipfile "yw-viewer_v0.1.8.zip" into a new folder.
 - Move into this new folder and launch **setup.pyw**. This installs the script for the local user.
 - Create a shortcut on the desktop when asked.
 - Open "README.md" for usage instructions.
