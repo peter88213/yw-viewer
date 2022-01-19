@@ -132,7 +132,7 @@ class FileViewer():
                 if self.novel.chapters[chId].isUnused:
                     continue
 
-                if not (self.novel.chapters[chId].chType == 0 or self.novel.chapters[chId].oldType == 0):
+                if self.novel.chapters[chId].chType != 0 and self.novel.chapters[chId].oldType != 0:
                     continue
 
                 if self.novel.chapters[chId].chLevel == 0:
