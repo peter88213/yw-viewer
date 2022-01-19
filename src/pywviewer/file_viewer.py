@@ -129,49 +129,53 @@ class FileViewer():
 
             for chId in self.novel.srtChapters:
 
-                if self.novel.chapters[chId].chType == 0 and not self.novel.chapters[chId].isUnused:
+                if self.novel.chapters[chId].isUnused:
+                    continue
 
-                    if self.novel.chapters[chId].chLevel == 0:
-                        headingPrefix = '## '
+                if not (self.novel.chapters[chId].chType == 0 or self.novel.chapters[chId].oldType == 0):
+                    continue
 
-                    else:
-                        headingPrefix = '# '
+                if self.novel.chapters[chId].chLevel == 0:
+                    headingPrefix = '## '
 
-                    # Get chapter titles.
+                else:
+                    headingPrefix = '# '
 
-                    if self.novel.chapters[chId].title:
-                        chapterTitles.append('- ' + self.novel.chapters[chId].title)
-                        sceneHeading = '\n' + headingPrefix + self.novel.chapters[chId].title + '\n'
-                        sceneTitles.append(sceneHeading)
+                # Get chapter titles.
 
-                    # Get chapter descriptions.
+                if self.novel.chapters[chId].title:
+                    chapterTitles.append('- ' + self.novel.chapters[chId].title)
+                    sceneHeading = '\n' + headingPrefix + self.novel.chapters[chId].title + '\n'
+                    sceneTitles.append(sceneHeading)
 
-                    if self.novel.chapters[chId].desc:
-                        chapterDescriptions.append('\n' + headingPrefix + self.novel.chapters[chId].title + '\n')
-                        chapterDescriptions.append(convert_from_yw(self.novel.chapters[chId].desc))
+                # Get chapter descriptions.
 
-                    for scId in self.novel.chapters[chId].srtScenes:
+                if self.novel.chapters[chId].desc:
+                    chapterDescriptions.append('\n' + headingPrefix + self.novel.chapters[chId].title + '\n')
+                    chapterDescriptions.append(convert_from_yw(self.novel.chapters[chId].desc))
 
-                        if not (self.novel.scenes[scId].isUnused or self.novel.scenes[scId].isNotesScene or self.novel.scenes[scId].isTodoScene):
+                for scId in self.novel.chapters[chId].srtScenes:
 
-                            # Get scene titles.
+                    if not (self.novel.scenes[scId].isUnused or self.novel.scenes[scId].isNotesScene or self.novel.scenes[scId].isTodoScene):
 
-                            if self.novel.scenes[scId].title:
-                                sceneTitles.append('- ' + self.novel.scenes[scId].title)
+                        # Get scene titles.
 
-                            # Get scene descriptions.
+                        if self.novel.scenes[scId].title:
+                            sceneTitles.append('- ' + self.novel.scenes[scId].title)
 
-                            if self.novel.scenes[scId].desc:
-                                sceneDescriptions.append(sceneHeading)
-                                sceneDescriptions.append(convert_from_yw(self.novel.scenes[scId].desc))
+                        # Get scene descriptions.
 
-                            # Get scene contents.
+                        if self.novel.scenes[scId].desc:
+                            sceneDescriptions.append(sceneHeading)
+                            sceneDescriptions.append(convert_from_yw(self.novel.scenes[scId].desc))
 
-                            if self.novel.scenes[scId].sceneContent:
-                                sceneContents.append(sceneHeading)
-                                sceneContents.append(convert_from_yw(self.novel.scenes[scId].sceneContent))
+                        # Get scene contents.
 
-                            sceneHeading = self.SCENE_DIVIDER
+                        if self.novel.scenes[scId].sceneContent:
+                            sceneContents.append(sceneHeading)
+                            sceneContents.append(convert_from_yw(self.novel.scenes[scId].sceneContent))
+
+                        sceneHeading = self.SCENE_DIVIDER
 
             self.chapterTitles = '\n'.join(chapterTitles)
 
