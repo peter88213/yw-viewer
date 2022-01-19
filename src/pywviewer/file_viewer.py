@@ -6,6 +6,7 @@ For further information see https://github.com/peter88213/yw-viewer
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
 import os
+import re
 import tkinter as tk
 from tkinter import filedialog, END
 from tkinter.filedialog import asksaveasfilename
@@ -46,6 +47,39 @@ class FileViewer():
 
     def open_file(self, fileName=''):
 
+        def convert_from_yw(text):
+            """Convert yw7 markup to Markdown.
+            """
+
+            MD_REPLACEMENTS = [
+                ['\n', '\n\n'],
+                ['[i] ', ' [i]'],
+                ['[b] ', ' [b]'],
+                ['[s] ', ' [s]'],
+                ['[i]', '*'],
+                ['[/i]', '*'],
+                ['[b]', '**'],
+                ['[/b]', '**'],
+                ['/*', '<!---'],
+                ['*/', '--->'],
+                ['  ', ' '],
+            ]
+
+            try:
+
+                for r in MD_REPLACEMENTS:
+                    text = text.replace(r[0], r[1])
+
+                text = re.sub('\[\/*[h|c|r|s|u]\d*\]', '', text)
+                # Remove highlighting, alignment, and underline tags
+
+            except AttributeError:
+                text = ''
+
+            return text
+
+        #--- Begin open_file() method.
+
         if not fileName:
             fileName = filedialog.askopenfilename(filetypes=[('yWriter 7 project', '.yw7')],
                                                   defaultextension='.yw7', initialdir=self.init_dir)
@@ -75,15 +109,15 @@ class FileViewer():
             else:
                 properties.append('(Unknown author)')
 
-            properties.append('Description:')
+            properties.append('# Description:')
 
             if self.novel.desc:
-                properties.append(self.novel.desc)
+                properties.append(convert_from_yw(self.novel.desc))
 
             else:
                 properties.append('(No project description available)')
 
-            self.properties = '\n'.join(properties)
+            self.properties = '\n\n'.join(properties)
 
             self.show_text(self.properties)
 
@@ -97,17 +131,24 @@ class FileViewer():
 
                 if self.novel.chapters[chId].chType == 0 and not self.novel.chapters[chId].isUnused:
 
+                    if self.novel.chapters[chId].chLevel == 0:
+                        headingPrefix = '## '
+
+                    else:
+                        headingPrefix = '# '
+
                     # Get chapter titles.
 
                     if self.novel.chapters[chId].title:
-                        chapterTitles.append(self.novel.chapters[chId].title)
-                        sceneHeading = '\n\t' + self.novel.chapters[chId].title + '\n'
+                        chapterTitles.append('- ' + self.novel.chapters[chId].title)
+                        sceneHeading = '\n' + headingPrefix + self.novel.chapters[chId].title + '\n'
+                        sceneTitles.append(sceneHeading)
 
                     # Get chapter descriptions.
 
                     if self.novel.chapters[chId].desc:
-                        chapterDescriptions.append('\n\t' + self.novel.chapters[chId].title + '\n')
-                        chapterDescriptions.append(self.novel.chapters[chId].desc)
+                        chapterDescriptions.append('\n' + headingPrefix + self.novel.chapters[chId].title + '\n')
+                        chapterDescriptions.append(convert_from_yw(self.novel.chapters[chId].desc))
 
                     for scId in self.novel.chapters[chId].srtScenes:
 
@@ -116,19 +157,19 @@ class FileViewer():
                             # Get scene titles.
 
                             if self.novel.scenes[scId].title:
-                                sceneTitles.append(self.novel.scenes[scId].title)
+                                sceneTitles.append('- ' + self.novel.scenes[scId].title)
 
                             # Get scene descriptions.
 
                             if self.novel.scenes[scId].desc:
                                 sceneDescriptions.append(sceneHeading)
-                                sceneDescriptions.append(self.novel.scenes[scId].desc)
+                                sceneDescriptions.append(convert_from_yw(self.novel.scenes[scId].desc))
 
                             # Get scene contents.
 
                             if self.novel.scenes[scId].sceneContent:
                                 sceneContents.append(sceneHeading)
-                                sceneContents.append(self.novel.scenes[scId].sceneContent)
+                                sceneContents.append(convert_from_yw(self.novel.scenes[scId].sceneContent))
 
                             sceneHeading = self.SCENE_DIVIDER
 
@@ -137,7 +178,7 @@ class FileViewer():
             if not self.chapterTitles:
                 self.chapterTitles = '(No chapter titles available)'
 
-            self.chapterDescriptions = '\n'.join(chapterDescriptions)
+            self.chapterDescriptions = '\n\n'.join(chapterDescriptions)
 
             if not self.chapterDescriptions:
                 self.chapterDescriptions = '(No chapter descriptions available)'
@@ -147,12 +188,12 @@ class FileViewer():
             if not self.sceneTitles:
                 self.sceneTitles = '(No scene titles available)'
 
-            self.sceneDescriptions = '\n'.join(sceneDescriptions)
+            self.sceneDescriptions = '\n\n'.join(sceneDescriptions)
 
             if not self.sceneDescriptions:
                 self.sceneDescriptions = '(No scene descriptions available)'
 
-            self.sceneContents = '\n'.join(sceneContents)
+            self.sceneContents = '\n\n'.join(sceneContents)
 
             if not self.sceneContents:
                 self.sceneContents = '(No scene contents available)'
@@ -202,7 +243,7 @@ class FileViewer():
 
         self.mainWindow.config(menu=menubar)
         self.textBox = scrolledtext.ScrolledText(self.mainWindow,  height=30,
-                                                 width=60, undo=True, autoseparators=True, maxundo=-1, spacing1=10, spacing2=3, wrap='word')
+                                                 width=60, undo=True, autoseparators=True, maxundo=-1, spacing1=0, spacing2=3, wrap='word')
         self.textBox.pack(expand=True, fill='both')
 
         if self.fileName:
