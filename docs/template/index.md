@@ -3,6 +3,8 @@
 
 The *yw-viewer* script is mainly intended for Linux users who manage multiple yWriter projects, because yWriter takes a long time to start under Wine. *yw-viewer* has a graphical user interface. However, a Python 3 installation is required to run it.
 
+[![Screenshot: Example](Screenshots/screen01.png)](https://raw.githubusercontent.com/peter88213/yw-viewer/main/docs/Screenshots/screen01.png)
+
 ## Features
 
 - View project properties: Author and description.
@@ -11,6 +13,7 @@ The *yw-viewer* script is mainly intended for Linux users who manage multiple yW
 - View scene titles.
 - View scene descriptions.
 - View scene contents.
+- Only "normal" chapters and scenes are shown. "Notes", "To Do", and unused chapters/scenes are left out.
 - All output is Markdown formatted and can be selected and copied. 
 
 ## Requirements
