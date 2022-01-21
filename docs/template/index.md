@@ -1,9 +1,11 @@
 [yWriter](http://spacejock.com/yWriter7.html) is a free word processor written by Australian author and programmer Simon Haynes. 
 
 
-The *yw-viewer* script is mainly intended for Linux users who manage multiple yWriter projects, because yWriter takes a long time to start under Wine. *yw-viewer* has a graphical user interface. However, a Python 3 installation is required to run it.
+The *yw-viewer* script is mainly intended for Linux users who manage multiple yWriter projects, because yWriter takes a long time to start under Wine. However, it is designed to run on several operating systems. On windows, an optional context menu entry for *.yw7* project viewing is provided. 
 
-![Screenshot: Example](Screenshots/screen01.png)
+![Screenshot: Windows example](Screenshots/screen02.png)
+
+![Screenshot: Linux example](Screenshots/screen01.png)
 
 ## Features
 

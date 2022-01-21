@@ -16,6 +16,19 @@ You can either
 The file viewer opens yw7 project files. If no yWriter project is specified by dragging and dropping on the program icon, the latest project selected is preset. You can change it with **Project > Open**.
 
 
+### Context menu (Windows only)
+
+Under Windows, you optionally can launch *yw-viewer* via context menu.
+
+After installation, you can add the context menu entry by double-clicking  `add_context_menu.reg`. 
+You may be asked for approval to modify the Windows registry. Please accept.
+
+- On right-clicking a *.yw7* file, a *View project* option appears.
+
+You can remove the context menu entry by double-clicking  `rem_context_menu.reg`.
+
+Please note that this context menu depends on the currently installed Python version. After a major Python update you may need to run the setup program again and renew the registry entry.
+
 
 ## Configuration file
 
