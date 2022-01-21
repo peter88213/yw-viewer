@@ -8,6 +8,15 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/yw-viewer/projects/1).
 
+### v0.2.3 Optional alpha release
+
+Windows-only: Change the context menu.
+
+#### Important!
+Before updating from v0.2.2, please remove the old context menu entry by double-clicking  `c:\Users\<user name>\.pywriter\yw-viewer\rem_context_menu.reg`.
+
+Based on PyWriter v3.32.3
+
 ### v0.2.2 Optional alpha release
 
 Windows-only: Provide registry files to extend the yWriter context menu.

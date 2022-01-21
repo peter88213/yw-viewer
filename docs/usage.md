@@ -23,7 +23,7 @@ Under Windows, you optionally can launch *yw-viewer* via context menu.
 After installation, you can add the context menu entry by double-clicking  `add_context_menu.reg`. 
 You may be asked for approval to modify the Windows registry. Please accept.
 
-- On right-clicking a *.yw7* file, a *View project* option appears.
+- On right-clicking a *.yw7* file, a **View** option appears.
 
 You can remove the context menu entry by double-clicking  `rem_context_menu.reg`.
 

@@ -47,15 +47,15 @@ python3 '$Apppath' %F
 
 SET_CONTEXT_MENU = '''Windows Registry Editor Version 5.00
 
-[HKEY_CURRENT_USER\Software\Classes\\yWriter7\\shell\\View project]
-[HKEY_CURRENT_USER\SOFTWARE\Classes\\yWriter7\\shell\\View project\\command]
+[HKEY_CURRENT_USER\Software\Classes\\yWriter7\\shell\\View]
+[HKEY_CURRENT_USER\SOFTWARE\Classes\\yWriter7\\shell\\View\\command]
 @="\\"${PYTHON}\\" \\"${SCRIPT}\\" \\"%1\\""
 
 '''
 
 RESET_CONTEXT_MENU = '''Windows Registry Editor Version 5.00
 
-[-HKEY_CURRENT_USER\Software\Classes\yWriter7\shell\View project]
+[-HKEY_CURRENT_USER\Software\Classes\yWriter7\shell\View]
 
 '''
 
