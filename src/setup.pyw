@@ -8,6 +8,7 @@ For further information see https://github.com/peter88213/yw-viewer
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
 import os
+import sys
 import stat
 from shutil import copyfile
 from pathlib import Path
@@ -44,10 +45,42 @@ On Linux, create a launcher on your desktop. With xfce for instance, the launche
 python3 '$Apppath' %F
 '''
 
+SET_CONTEXT_MENU = '''Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Classes\\yWriter7\\shell\\View project]
+[HKEY_CURRENT_USER\SOFTWARE\Classes\\yWriter7\\shell\\View project\\command]
+@="\\"${PYTHON}\\" \\"${SCRIPT}\\" \\"%1\\""
+
+'''
+
+RESET_CONTEXT_MENU = '''Windows Registry Editor Version 5.00
+
+[-HKEY_CURRENT_USER\Software\Classes\yWriter7\shell\View project]
+
+'''
+
 
 root = Tk()
 processInfo = Label(root, text='')
 message = []
+
+
+def make_context_menu(installPath):
+    """Generate ".reg" files to extend the yWriter context menu."""
+
+    def save_reg_file(filePath, template, mapping):
+        """Save a registry file."""
+
+        with open(filePath, 'w', encoding='utf-8') as f:
+            f.write(template.safe_substitute(mapping))
+
+        output('Creating ' + os.path.normpath(filePath))
+
+    python = sys.executable.replace('\\', '\\\\')
+    script = installPath.replace('/', '\\\\') + '\\\\' + APP
+    mapping = dict(PYTHON=python, SCRIPT=script)
+    save_reg_file(installPath + '/add_context_menu.reg', Template(SET_CONTEXT_MENU), mapping)
+    save_reg_file(installPath + '/rem_context_menu.reg', Template(RESET_CONTEXT_MENU), {})
 
 
 def output(text):
@@ -139,6 +172,11 @@ def install(pywriterPath):
                     output('Keeping "' + file.name + '"')
     except:
         pass
+
+    # Generate registry entries for the context menu (Windows only).
+
+    if os.name == 'nt':
+        make_context_menu(installDir)
 
     # Display a success message.
 
