@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/yw-viewer/projects/1).
 
+### v0.2.7 Bugfix alpha release
+
+- Fix a bug where the file path is not updated after opening a project.
+- Disable the editor after closing a project.
+
+Based on PyWriter v 3.32.3
+
 ### v0.2.6 Fix the display
 
 - Do not expand the info bars.

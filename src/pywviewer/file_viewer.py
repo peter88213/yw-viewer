@@ -85,8 +85,9 @@ class FileViewer():
                                                   defaultextension='.yw7', initialdir=self.init_dir)
 
         if fileName:
-            self.kwargs['yw_last_open'] = fileName
-            self.novel = Yw7File(fileName)
+            self.fileName = fileName
+            self.kwargs['yw_last_open'] = self.fileName
+            self.novel = Yw7File(self.fileName)
             self.novel.read()
             self.pathBar.config(text=os.path.normpath(self.fileName))
 
@@ -229,6 +230,7 @@ class FileViewer():
         self.novel = None
         self.textBox['state'] = 'normal'
         self.textBox.delete('1.0', END)
+        self.textBox['state'] = 'disabled'
         self.titleBar.config(text='')
         self.statusBar.config(text='')
         self.pathBar.config(text='')
