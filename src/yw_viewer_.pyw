@@ -43,7 +43,7 @@ def run(sourcePath, installDir=''):
     kwargs.update(configuration.settings)
     kwargs.update(configuration.options)
 
-    viewerUi = FileViewer(fileName=sourcePath, **kwargs)
+    viewerUi = FileViewer(fileName=sourcePath, title='yw-viewer @release', **kwargs)
     viewerUi.run()
 
     #--- Save project specific configuration

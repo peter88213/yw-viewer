@@ -23,7 +23,7 @@ class FileViewer():
     """
     SCENE_DIVIDER = '\t* * *'
 
-    def __init__(self, fileName='', **kwargs):
+    def __init__(self, fileName='', title='', **kwargs):
         if fileName:
             self.fileName = fileName
 
@@ -35,7 +35,7 @@ class FileViewer():
 
         self.kwargs = kwargs
         self.mainWindow = tk.Tk()
-        # change width height
+        self.mainWindow.title(title)
         self.init_dir = os.path.dirname(fileName)
         self.novel = None
         self.properties = None
@@ -88,6 +88,7 @@ class FileViewer():
             self.kwargs['yw_last_open'] = fileName
             self.novel = Yw7File(fileName)
             self.novel.read()
+            self.statusBar.config(text=os.path.normpath(self.fileName))
 
             # Get the project title.
 
@@ -97,19 +98,19 @@ class FileViewer():
             else:
                 projectTitle = 'Untitled yWriter project'
 
-            self.mainWindow.title(projectTitle)
+            if self.novel.author:
+                author = self.novel.author
+
+            else:
+                author = 'Unknown author'
+
+            self.titleBar.config(text=projectTitle + ' by ' + author)
 
             # Get project properties.
 
             properties = []
 
-            if self.novel.author:
-                properties.append('Author: ' + self.novel.author)
-
-            else:
-                properties.append('(Unknown author)')
-
-            properties.append('# Description:')
+            properties.append('\n# Description')
 
             if self.novel.desc:
                 properties.append(convert_from_yw(self.novel.desc))
@@ -205,19 +206,17 @@ class FileViewer():
     def show_text(self, text):
 
         if self.novel is not None:
+            self.textBox['state'] = 'normal'
             self.textBox.delete('1.0', END)
-            # remove the previous content
             self.textBox.insert('1.0', text)
-            # add new data from file to text box
+            self.textBox['state'] = 'disabled'
 
     def close_file(self):
         self.novel = None
-
+        self.textBox['state'] = 'normal'
         self.textBox.delete('1.0', END)
-        # remove the content from text widget
-
-        self.mainWindow.title('')
-        # remove the title of GUI
+        self.titleBar.config(text='')
+        self.statusBar.config(text='')
 
     def run(self):
         menubar = tk.Menu(self.mainWindow)
@@ -246,9 +245,15 @@ class FileViewer():
         menuS.add_command(label='Scene contents', command=lambda: self.show_text(self.sceneContents))
 
         self.mainWindow.config(menu=menubar)
+
+        self.titleBar = tk.Label(self.mainWindow,  text='')
+        self.titleBar.pack(expand=True, anchor='w')
+
         self.textBox = scrolledtext.ScrolledText(self.mainWindow,  height=30,
                                                  width=60, undo=True, autoseparators=True, maxundo=-1, spacing1=0, spacing2=3, wrap='word')
-        self.textBox.pack(expand=True, fill='both')
+        self.textBox.pack(expand=True, fill='both', padx=4, pady=4)
+        self.statusBar = tk.Label(self.mainWindow,  text='')
+        self.statusBar.pack(expand=True, anchor='w')
 
         if self.fileName:
             self.open_file(self.fileName)
