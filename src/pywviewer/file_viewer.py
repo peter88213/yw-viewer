@@ -262,15 +262,16 @@ class FileViewer():
         self.mainWindow.config(menu=menubar)
 
         self.titleBar = tk.Label(self.mainWindow,  text='')
-        self.titleBar.pack(expand=True, anchor='w')
+        self.titleBar.pack(expand=False, anchor='w')
 
         self.textBox = scrolledtext.ScrolledText(self.mainWindow,  height=30,
                                                  width=60, undo=True, autoseparators=True, maxundo=-1, spacing1=0, spacing2=3, wrap='word')
         self.textBox.pack(expand=True, fill='both', padx=4, pady=4)
+
         self.statusBar = tk.Label(self.mainWindow,  text='')
-        self.statusBar.pack(expand=True, anchor='w')
+        self.statusBar.pack(expand=False, anchor='w')
         self.pathBar = tk.Label(self.mainWindow,  text='')
-        self.pathBar.pack(expand=True, anchor='w')
+        self.pathBar.pack(expand=False, anchor='w')
 
         if self.fileName:
             self.open_file(self.fileName)
