@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/yw-viewer/projects/1).
 
+### v0.2.5 Show stats
+
+- Move file path from status bar to path bar.
+- Show chapter, scenes, and words total in the status bar.
+
+Based on PyWriter v 3.32.3
+
 ### v0.2.4 Improve UI
 
 - Add title bar with project title and author. 

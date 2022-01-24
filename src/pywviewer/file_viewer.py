@@ -88,7 +88,7 @@ class FileViewer():
             self.kwargs['yw_last_open'] = fileName
             self.novel = Yw7File(fileName)
             self.novel.read()
-            self.statusBar.config(text=os.path.normpath(self.fileName))
+            self.pathBar.config(text=os.path.normpath(self.fileName))
 
             # Get the project title.
 
@@ -127,6 +127,9 @@ class FileViewer():
             sceneTitles = []
             sceneDescriptions = []
             sceneContents = []
+            chapterCount = 0
+            sceneCount = 0
+            wordCount = 0
 
             for chId in self.novel.srtChapters:
 
@@ -135,6 +138,8 @@ class FileViewer():
 
                 if self.novel.chapters[chId].chType != 0 and self.novel.chapters[chId].oldType != 0:
                     continue
+
+                chapterCount += 1
 
                 if self.novel.chapters[chId].chLevel == 0:
                     headingPrefix = '## '
@@ -158,6 +163,7 @@ class FileViewer():
                 for scId in self.novel.chapters[chId].srtScenes:
 
                     if not (self.novel.scenes[scId].isUnused or self.novel.scenes[scId].isNotesScene or self.novel.scenes[scId].isTodoScene):
+                        sceneCount += 1
 
                         # Get scene titles.
 
@@ -177,6 +183,14 @@ class FileViewer():
                             sceneContents.append(convert_from_yw(self.novel.scenes[scId].sceneContent))
 
                         sceneHeading = self.SCENE_DIVIDER
+
+                        # Get scene word count.
+
+                        if self.novel.scenes[scId].wordCount:
+                            wordCount += self.novel.scenes[scId].wordCount
+
+            self.statusBar.config(text=str(chapterCount) + ' chapters, ' +
+                                  str(sceneCount) + ' scenes, ' + str(wordCount) + ' words')
 
             self.chapterTitles = '\n'.join(chapterTitles)
 
@@ -217,6 +231,7 @@ class FileViewer():
         self.textBox.delete('1.0', END)
         self.titleBar.config(text='')
         self.statusBar.config(text='')
+        self.pathBar.config(text='')
 
     def run(self):
         menubar = tk.Menu(self.mainWindow)
@@ -254,13 +269,10 @@ class FileViewer():
         self.textBox.pack(expand=True, fill='both', padx=4, pady=4)
         self.statusBar = tk.Label(self.mainWindow,  text='')
         self.statusBar.pack(expand=True, anchor='w')
+        self.pathBar = tk.Label(self.mainWindow,  text='')
+        self.pathBar.pack(expand=True, anchor='w')
 
         if self.fileName:
             self.open_file(self.fileName)
 
         self.mainWindow.mainloop()
-
-
-if __name__ == '__main__':
-    viewer = FileViewer()
-    viewer.run()
