@@ -13,7 +13,7 @@ import argparse
 from pathlib import Path
 
 from pywriter.config.configuration import Configuration
-from pywviewer.file_viewer import FileViewer
+from pywviewer.yw7_viewer_tk import Yw7ViewerTk
 
 APPNAME = 'yw-viewer'
 
@@ -24,17 +24,9 @@ SETTINGS = dict(
 OPTIONS = {}
 
 
-def run(sourcePath, installDir=''):
+def run(sourcePath='', installDir=''):
 
-    #--- Load configuration
-
-    sourceDir = os.path.dirname(sourcePath)
-
-    if sourceDir == '':
-        sourceDir = './'
-
-    else:
-        sourceDir += '/'
+    #--- Load configuration.
 
     iniFile = installDir + APPNAME + '.ini'
     configuration = Configuration(SETTINGS, OPTIONS)
@@ -43,18 +35,26 @@ def run(sourcePath, installDir=''):
     kwargs.update(configuration.settings)
     kwargs.update(configuration.options)
 
-    viewerUi = FileViewer(fileName=sourcePath, title='yw-viewer @release', **kwargs)
-    viewerUi.run()
+    #--- Get initial project path.
+
+    if not sourcePath or not os.path.isfile(sourcePath):
+        sourcePath = kwargs['yw_last_open']
+
+    #--- Instantiate the viewer opject.
+
+    viewer = Yw7ViewerTk('yw-viewer @release', **kwargs)
+    viewer.open_project(sourcePath)
+    viewer.start()
 
     #--- Save project specific configuration
 
-    for keyword in viewerUi.kwargs:
+    for keyword in viewer.kwargs:
 
         if keyword in configuration.options:
-            configuration.options[keyword] = viewerUi.kwargs[keyword]
+            configuration.options[keyword] = viewer.kwargs[keyword]
 
         elif keyword in configuration.settings:
-            configuration.settings[keyword] = viewerUi.kwargs[keyword]
+            configuration.settings[keyword] = viewer.kwargs[keyword]
 
         configuration.write(iniFile)
 

@@ -8,6 +8,14 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/yw-viewer/projects/1).
 
+### v0.4.0 Alpha release
+
+- Disable menu entries when no project is open.
+- Do not accept nonexistent projects from the command line.
+- Refactor the code.
+
+Based on PyWriter v 3.32.3
+
 ### v0.2.7 Bugfix alpha release
 
 - Fix a bug where the file path is not updated after opening a project.
