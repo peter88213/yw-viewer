@@ -111,8 +111,6 @@ class FileViewer():
 
             properties = []
 
-            properties.append('\n# Description')
-
             if self.novel.desc:
                 properties.append(convert_from_yw(self.novel.desc))
 
@@ -242,7 +240,7 @@ class FileViewer():
         menubar.add_cascade(label='Project', menu=menuF)
 
         menuF.add_command(label='Open..', command=lambda: self.open_file())
-        menuF.add_command(label='Properties', command=lambda: self.show_text(self.properties))
+        menuF.add_command(label='Description', command=lambda: self.show_text(self.properties))
         menuF.add_command(label='Close', command=lambda: self.close_file())
         menuF.add_command(label='Exit', command=self.mainWindow.quit)
 
