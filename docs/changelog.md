@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/yw-viewer/projects/1).
 
+### v0.4.1 Improve error handling
+
+- Show a message in the status bar if the yw7 project cannot be read.
+
+Based on PyWriter v 3.32.3
+
 ### v0.4.0 Alpha release
 
 - Disable menu entries when no project is open.

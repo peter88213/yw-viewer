@@ -45,7 +45,10 @@ class Yw7FileView(Yw7File):
     def read(self):
         """Extend the superclass by creating viewer information.
         """
-        super().read()
+        message = super().read()
+
+        if message.startswith('ERROR'):
+            return message
 
         # Get the project title.
 
@@ -164,6 +167,8 @@ class Yw7FileView(Yw7File):
 
         if not self.sceneContents:
             self.sceneContents = '(No scene contents available)'
+
+        return 'SUCCESS'
 
     def convert_from_yw(self, text):
         """Convert yw7 markup to Markdown.

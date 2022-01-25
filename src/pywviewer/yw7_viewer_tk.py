@@ -26,7 +26,7 @@ class Yw7ViewerTk():
         #--- Initialize the project related instance variables.
 
         self.kwargs = kwargs
-        self.yw7prj = None
+        self.ywPrj = None
 
         #--- Configure the user interface.
 
@@ -38,22 +38,22 @@ class Yw7ViewerTk():
         self.menuF = tk.Menu(self.menubar, title='my title', tearoff=0)
         self.menubar.add_cascade(label='Project', menu=self.menuF)
         self.menuF.add_command(label='Open Project...', command=lambda: self.open_project(''))
-        self.menuF.add_command(label='Show Description', command=lambda: self.show_text(self.yw7prj.descView))
+        self.menuF.add_command(label='Show Description', command=lambda: self.show_text(self.ywPrj.descView))
         self.menuF.add_command(label='Close Project', command=lambda: self.close_project())
         self.menuF.add_command(label='Exit', command=self.root.quit)
 
         self.menuC = tk.Menu(self.menubar, title='my title', tearoff=0)
         self.menubar.add_cascade(label='Chapters', menu=self.menuC)  # Top Line
-        self.menuC.add_command(label='Chapter titles', command=lambda: self.show_text(self.yw7prj.chapterTitles))
+        self.menuC.add_command(label='Chapter titles', command=lambda: self.show_text(self.ywPrj.chapterTitles))
         self.menuC.add_command(label='Chapter descriptions',
-                               command=lambda: self.show_text(self.yw7prj.chapterDescriptions))
+                               command=lambda: self.show_text(self.ywPrj.chapterDescriptions))
 
         self.menuS = tk.Menu(self.menubar, title='my title', tearoff=0)
         self.menubar.add_cascade(label='Scenes', menu=self.menuS)  # Top Line
-        self.menuS.add_command(label='Scene titles', command=lambda: self.show_text(self.yw7prj.sceneTitles))
+        self.menuS.add_command(label='Scene titles', command=lambda: self.show_text(self.ywPrj.sceneTitles))
         self.menuS.add_command(label='Scene descriptions',
-                               command=lambda: self.show_text(self.yw7prj.sceneDescriptions))
-        self.menuS.add_command(label='Scene contents', command=lambda: self.show_text(self.yw7prj.sceneContents))
+                               command=lambda: self.show_text(self.ywPrj.sceneDescriptions))
+        self.menuS.add_command(label='Scene contents', command=lambda: self.show_text(self.ywPrj.sceneContents))
 
         self.root.config(menu=self.menubar)
         self.menuF.entryconfig('Show Description', state='disabled')
@@ -90,26 +90,33 @@ class Yw7ViewerTk():
         if fileName:
             self.kwargs['yw_last_open'] = fileName
             self.pathBar.config(text=os.path.normpath(fileName))
-            self.yw7prj = Yw7FileView(fileName)
-            self.yw7prj.read()
-            self.show_text(self.yw7prj.descView)
-            self.titleBar.config(text=self.yw7prj.titleView)
-            self.statusBar.config(text=self.yw7prj.statView)
-            self.menuF.entryconfig('Show Description', state='normal')
-            self.menuF.entryconfig('Close Project', state='normal')
-            self.menubar.entryconfig('Chapters', state='normal')
-            self.menubar.entryconfig('Scenes', state='normal')
+            self.ywPrj = Yw7FileView(fileName)
+            message = self.ywPrj.read()
+
+            if message.startswith('ERROR'):
+                self.close_project()
+                self.statusBar.config(text=message)
+
+            else:
+                self.show_text(self.ywPrj.descView)
+                self.titleBar.config(text=self.ywPrj.titleView)
+                self.statusBar.config(text=self.ywPrj.statView)
+                self.menuF.entryconfig('Show Description', state='normal')
+                self.menuF.entryconfig('Close Project', state='normal')
+                self.menubar.entryconfig('Chapters', state='normal')
+                self.menubar.entryconfig('Scenes', state='normal')
 
     def show_text(self, text):
+        self.textBox['state'] = 'normal'
+        self.textBox.delete('1.0', END)
 
-        if self.yw7prj is not None:
-            self.textBox['state'] = 'normal'
-            self.textBox.delete('1.0', END)
+        if text:
             self.textBox.insert('1.0', text)
-            self.textBox['state'] = 'disabled'
+
+        self.textBox['state'] = 'disabled'
 
     def close_project(self):
-        self.yw7prj = None
+        self.ywPrj = None
         self.textBox['state'] = 'normal'
         self.textBox.delete('1.0', END)
         self.textBox['state'] = 'disabled'
