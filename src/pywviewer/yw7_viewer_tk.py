@@ -85,6 +85,7 @@ class Yw7ViewerTk(RootTk):
         """
         if super().open_project(fileName):
             self.show_text(self.ywPrj.descView)
+            self.statusBar.config(text=self.ywPrj.statView)
             return True
 
         return False

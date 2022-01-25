@@ -22,7 +22,6 @@ class Yw7FileView(Yw7File):
     chapterDescriptions (str): Markdown formatted text containing chapter titles and descriptions.
     sceneTitles (str): Markdown formatted text containing chapter titles and listed scene titles.
     sceneContents (str): Markdown formatted text containing chapter titles and scene contents.
-    titleView (str): String containing the project title and the author's name.
     statView (str): String containing the total numbers of chapters, scenes and words.
     """
 
@@ -38,7 +37,6 @@ class Yw7FileView(Yw7File):
         self.sceneTitles = None
         self.sceneDescriptions = None
         self.sceneContents = None
-        self.titleView = None
         self.statView = None
         self.descView = None
 
@@ -49,22 +47,6 @@ class Yw7FileView(Yw7File):
 
         if message.startswith('ERROR'):
             return message
-
-        # Get the project title.
-
-        if self.title:
-            titleView = self.title
-
-        else:
-            titleView = 'Untitled yWriter project'
-
-        if self.author:
-            authorView = self.author
-
-        else:
-            authorView = 'Unknown author'
-
-        self.titleView = titleView + ' by ' + authorView
 
         # Get project description.
 
