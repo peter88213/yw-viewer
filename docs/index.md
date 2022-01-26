@@ -3,9 +3,9 @@
 
 The *yw-viewer* script is mainly intended for Linux users who manage multiple yWriter projects, because yWriter takes a long time to start under Wine. However, it is designed to run on several operating systems. On windows, an optional context menu entry for *.yw7* project viewing is provided. 
 
-![Screenshot: Windows example](Screenshots/screen02.png)
+![Screenshot: Context menu](Screenshots/screen01.png)
 
-![Screenshot: Linux example](Screenshots/screen01.png)
+![Screenshot: Scene titles](Screenshots/screen02.png)
 
 ## Features
 
