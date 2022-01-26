@@ -10,11 +10,11 @@ import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import END
 
-from pywriter.ui.main_win_tk import MainWinTk
+from pywriter.ui.main_tk import MainTk
 from pywviewer.yw7_file_view import Yw7FileView
 
 
-class Yw7ViewerTk(MainWinTk):
+class Yw7ViewerTk(MainTk):
     """A tkinter GUI class for yWriter file viewing.
 
     Show titles, descriptions, and contents in a text box.
@@ -39,10 +39,10 @@ class Yw7ViewerTk(MainWinTk):
         self.quickViewMenu.add_command(label='Project description', command=lambda: self.show_text(self.ywPrj.descView))
         self.quickViewMenu.add_command(label='Chapter titles', command=lambda: self.show_text(self.ywPrj.chapterTitles))
         self.quickViewMenu.add_command(label='Chapter descriptions',
-                               command=lambda: self.show_text(self.ywPrj.chapterDescriptions))
+                                       command=lambda: self.show_text(self.ywPrj.chapterDescriptions))
         self.quickViewMenu.add_command(label='Scene titles', command=lambda: self.show_text(self.ywPrj.sceneTitles))
         self.quickViewMenu.add_command(label='Scene descriptions',
-                               command=lambda: self.show_text(self.ywPrj.sceneDescriptions))
+                                       command=lambda: self.show_text(self.ywPrj.sceneDescriptions))
         self.quickViewMenu.add_command(label='Scene contents', command=lambda: self.show_text(self.ywPrj.sceneContents))
         self.quickViewMenu.insert_separator(1)
         self.quickViewMenu.insert_separator(4)
@@ -81,33 +81,33 @@ class Yw7ViewerTk(MainWinTk):
         """
         fileName = super().open_project(fileName)
 
-        if fileName:
-            self.ywPrj = Yw7FileView(fileName)
-            message = self.ywPrj.read()
+        if not fileName:
+            return ''
 
-            if not message.startswith('ERROR'):
+        self.ywPrj = Yw7FileView(fileName)
+        message = self.ywPrj.read()
 
-                if self.ywPrj.title:
-                    titleView = self.ywPrj.title
+        if message.startswith('ERROR'):
+            self.close_project()
+            self.statusBar.config(text=message)
+            return ''
 
-                else:
-                    titleView = 'Untitled yWriter project'
+        if self.ywPrj.title:
+            titleView = self.ywPrj.title
 
-                if self.ywPrj.author:
-                    authorView = self.ywPrj.author
+        else:
+            titleView = 'Untitled yWriter project'
 
-                else:
-                    authorView = 'Unknown author'
+        if self.ywPrj.author:
+            authorView = self.ywPrj.author
 
-                self.titleBar.config(text=titleView + ' by ' + authorView)
-                self.show_text(self.ywPrj.descView)
-                self.statusBar.config(text=self.ywPrj.statView)
-                self.enable_menu()
+        else:
+            authorView = 'Unknown author'
 
-            else:
-                self.close_project()
-                self.statusBar.config(text=message)
-
+        self.titleBar.config(text=titleView + ' by ' + authorView)
+        self.show_text(self.ywPrj.descView)
+        self.statusBar.config(text=self.ywPrj.statView)
+        self.enable_menu()
         return fileName
 
     def close_project(self):

@@ -40,7 +40,7 @@ def run(sourcePath='', installDir=''):
     if not sourcePath or not os.path.isfile(sourcePath):
         sourcePath = kwargs['yw_last_open']
 
-    #--- Instantiate the viewer opject.
+    #--- Instantiate the viewer object.
 
     viewer = Yw7ViewerTk('yw-viewer @release', **kwargs)
     viewer.open_project(sourcePath)
