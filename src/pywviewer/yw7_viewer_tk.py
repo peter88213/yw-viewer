@@ -10,11 +10,11 @@ import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import END
 
-from pywriter.ui.root_tk import RootTk
+from pywriter.ui.main_win_tk import MainWinTk
 from pywviewer.yw7_file_view import Yw7FileView
 
 
-class Yw7ViewerTk(RootTk):
+class Yw7ViewerTk(MainWinTk):
     """A tkinter GUI class for yWriter file viewing.
 
     Show titles, descriptions, and contents in a text box.
@@ -33,32 +33,33 @@ class Yw7ViewerTk(RootTk):
         """Add main menu entries.
         Override the superclass template method. 
         """
-        self.menuQ = tk.Menu(self.menubar, title='my title', tearoff=0)
-        self.menubar.add_cascade(label='Quick view', menu=self.menuQ)  # Top Line
-        self.menuQ.add_command(label='Project description', command=lambda: self.show_text(self.ywPrj.descView))
-        self.menuQ.add_command(label='Chapter titles', command=lambda: self.show_text(self.ywPrj.chapterTitles))
-        self.menuQ.add_command(label='Chapter descriptions',
+        self.quickViewMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.mainMenu.add_cascade(label='Quick view', menu=self.quickViewMenu)
+        self.mainMenu.entryconfig('Quick view', state='disabled')
+        self.quickViewMenu.add_command(label='Project description', command=lambda: self.show_text(self.ywPrj.descView))
+        self.quickViewMenu.add_command(label='Chapter titles', command=lambda: self.show_text(self.ywPrj.chapterTitles))
+        self.quickViewMenu.add_command(label='Chapter descriptions',
                                command=lambda: self.show_text(self.ywPrj.chapterDescriptions))
-        self.menuQ.add_command(label='Scene titles', command=lambda: self.show_text(self.ywPrj.sceneTitles))
-        self.menuQ.add_command(label='Scene descriptions',
+        self.quickViewMenu.add_command(label='Scene titles', command=lambda: self.show_text(self.ywPrj.sceneTitles))
+        self.quickViewMenu.add_command(label='Scene descriptions',
                                command=lambda: self.show_text(self.ywPrj.sceneDescriptions))
-        self.menuQ.add_command(label='Scene contents', command=lambda: self.show_text(self.ywPrj.sceneContents))
-        self.menuQ.insert_separator(1)
-        self.menuQ.insert_separator(4)
+        self.quickViewMenu.add_command(label='Scene contents', command=lambda: self.show_text(self.ywPrj.sceneContents))
+        self.quickViewMenu.insert_separator(1)
+        self.quickViewMenu.insert_separator(4)
 
     def disable_menu(self):
         """Disable menu entries when no project is open.
         Extend the superclass method.      
         """
         super().disable_menu()
-        self.menubar.entryconfig('Quick view', state='disabled')
+        self.mainMenu.entryconfig('Quick view', state='disabled')
 
     def enable_menu(self):
         """Enable menu entries when a project is open.
         Extend the superclass method.
         """
         super().enable_menu()
-        self.menubar.entryconfig('Quick view', state='normal')
+        self.mainMenu.entryconfig('Quick view', state='normal')
 
     def show_text(self, text):
         """Load text into the text box.
@@ -72,23 +73,42 @@ class Yw7ViewerTk(RootTk):
 
         self.textBox['state'] = 'disabled'
 
-    def instantiate_project(self, fileName):
-        """Create an object that represents the project file.
-        Override the superclass template method. 
-        """
-        self.ywPrj = Yw7FileView(fileName)
-
     def open_project(self, fileName):
-        """Show the project description after reading the file.
-        Return True if sucessful, otherwise return False.
+        """Create a yWriter project instance and read the file.
+        Display project title, description and status.
+        Return the file name.
         Extend the superclass method.
         """
-        if super().open_project(fileName):
-            self.show_text(self.ywPrj.descView)
-            self.statusBar.config(text=self.ywPrj.statView)
-            return True
+        fileName = super().open_project(fileName)
 
-        return False
+        if fileName:
+            self.ywPrj = Yw7FileView(fileName)
+            message = self.ywPrj.read()
+
+            if not message.startswith('ERROR'):
+
+                if self.ywPrj.title:
+                    titleView = self.ywPrj.title
+
+                else:
+                    titleView = 'Untitled yWriter project'
+
+                if self.ywPrj.author:
+                    authorView = self.ywPrj.author
+
+                else:
+                    authorView = 'Unknown author'
+
+                self.titleBar.config(text=titleView + ' by ' + authorView)
+                self.show_text(self.ywPrj.descView)
+                self.statusBar.config(text=self.ywPrj.statView)
+                self.enable_menu()
+
+            else:
+                self.close_project()
+                self.statusBar.config(text=message)
+
+        return fileName
 
     def close_project(self):
         """Clear the text box.
