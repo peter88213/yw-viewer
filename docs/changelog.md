@@ -8,6 +8,10 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/yw-viewer/projects/1).
 
+### v1.0.0 Public release
+
+Based on PyWriter v 4.0.0
+
 ### v0.4.1 Improve error handling
 
 - Show a message in the status bar if the yw7 project cannot be read.
