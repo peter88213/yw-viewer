@@ -16,7 +16,7 @@ The *yw-viewer* script is mainly intended for Linux users who manage multiple yW
 - View scene descriptions.
 - View scene contents.
 - Only "normal" chapters and scenes are shown. "Notes", "To Do", and unused chapters/scenes are left out.
-- All output is Markdown formatted and can be selected and copied. 
+- All can be selected and copied. 
 
 ## Requirements
 
@@ -43,6 +43,10 @@ Please make sure that your Python3 installation has the *tkinter* module. On Ubu
 ## Usage
 
 See the [instructions for use](usage)
+
+## Credits
+
+Bryan Oakley presented a Rich Text example on [stack overflow](https://stackoverflow.com/questions/63099026/fomatted-text-in-tkinter).
 
 
 ## License

@@ -9,8 +9,11 @@ import os
 import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import END
+from tkinter import font as tkFont
+
 
 from pywriter.ui.main_tk import MainTk
+from pywviewer.rich_text_tk import RichTextTk
 from pywviewer.yw7_file_view import Yw7FileView
 
 
@@ -25,8 +28,8 @@ class Yw7ViewerTk(MainTk):
         Extend the superclass constructor.
         """
         super().__init__(title, **kwargs)
-        self.textBox = scrolledtext.ScrolledText(self.mainWindow,  height=30,
-                                                 width=60, undo=True, autoseparators=True, maxundo=-1, spacing1=0, spacing2=3, wrap='word')
+        self.textBox = RichTextTk(self.mainWindow,  height=20, width=60, undo=True, autoseparators=True, maxundo=-1,
+                                  spacing1=10, spacing2=2, wrap='word', padx=40)
         self.textBox.pack(expand=True, fill='both', padx=4, pady=4)
 
     def extend_menu(self):
@@ -68,8 +71,8 @@ class Yw7ViewerTk(MainTk):
         self.textBox['state'] = 'normal'
         self.textBox.delete('1.0', END)
 
-        if text:
-            self.textBox.insert('1.0', text)
+        for paragraph in text:
+            self.textBox.insert(END, paragraph[0], paragraph[1])
 
         self.textBox['state'] = 'disabled'
 
