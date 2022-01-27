@@ -17,12 +17,14 @@ class Yw7FileView(Yw7File):
 
     Public instance variables:
 
-    descView (str): Markdown formatted project description.
-    chapterTitles (str): Markdown formatted list of chapter titles.
-    chapterDescriptions (str): Markdown formatted text containing chapter titles and descriptions.
-    sceneTitles (str): Markdown formatted text containing chapter titles and listed scene titles.
-    sceneContents (str): Markdown formatted text containing chapter titles and scene contents.
     statView (str): String containing the total numbers of chapters, scenes and words.
+    descView: (list of tuples): Project description.
+    chapterTitles (list of tuples): List of chapter titles.
+    chapterDescriptions (list of tuples): Text containing chapter titles and descriptions.
+    sceneTitles (list of tuples): Text containing chapter titles and listed scene titles.
+    sceneContents (list of tuples): Text containing chapter titles and scene contents.
+
+    (The list entries are tuples containing the text and a formatting tag.)       
     """
     H1_TAG = 'h1'
     H2_TAG = 'h2'
@@ -31,7 +33,7 @@ class Yw7FileView(Yw7File):
     BOLD_TAG = 'bold'
     CENTER_TAG = 'center'
     NO_TAG = ''
-    SCENE_DIVIDER = ['* * *\n', CENTER_TAG]
+    SCENE_DIVIDER = ('* * *\n', CENTER_TAG)
 
     def __init__(self, filePath, **kwargs):
         """Initialize instance variables:
@@ -85,22 +87,24 @@ class Yw7FileView(Yw7File):
 
             if self.chapters[chId].chLevel == 0:
                 headingTag = self.H2_TAG
+                listTag = self.NO_TAG
 
             else:
                 headingTag = self.H1_TAG
+                listTag = self.BOLD_TAG
 
             # Get chapter titles.
 
             if self.chapters[chId].title:
-                self.chapterTitles.append([self.chapters[chId].title + '\n', headingTag])
+                self.chapterTitles.append((self.chapters[chId].title + '\n', listTag))
                 sceneHeading = [self.chapters[chId].title + '\n', headingTag]
                 self.sceneTitles.append(sceneHeading)
 
             # Get chapter descriptions.
 
             if self.chapters[chId].desc:
-                self.chapterDescriptions.append([self.chapters[chId].title + '\n', headingTag])
-                self.chapterDescriptions.append([self.chapters[chId].desc + '\n', self.NO_TAG])
+                self.chapterDescriptions.append((self.chapters[chId].title + '\n', headingTag))
+                self.chapterDescriptions.append((self.chapters[chId].desc + '\n', self.NO_TAG))
 
             for scId in self.chapters[chId].srtScenes:
 
@@ -110,20 +114,20 @@ class Yw7FileView(Yw7File):
                     # Get scene titles.
 
                     if self.scenes[scId].title:
-                        self.sceneTitles.append([self.scenes[scId].title + '\n', self.NO_TAG])
+                        self.sceneTitles.append((self.scenes[scId].title + '\n', self.NO_TAG))
 
                     # Get scene descriptions.
 
                     if self.scenes[scId].desc:
                         self.sceneDescriptions.append(sceneHeading)
-                        self.sceneDescriptions.append([self.scenes[scId].desc + '\n', self.NO_TAG])
+                        self.sceneDescriptions.append((self.scenes[scId].desc + '\n', self.NO_TAG))
 
                     # Get scene contents.
 
                     if self.scenes[scId].sceneContent:
                         self.sceneContents.append(sceneHeading)
-                        self.sceneContents.append([self.convert_from_yw(
-                            self.scenes[scId].sceneContent + '\n'), self.NO_TAG])
+                        self.sceneContents.append((self.convert_from_yw(
+                            self.scenes[scId].sceneContent + '\n'), self.NO_TAG))
 
                     sceneHeading = self.SCENE_DIVIDER
 
@@ -135,19 +139,19 @@ class Yw7FileView(Yw7File):
         self.statView = str(chapterCount) + ' chapters, ' + str(sceneCount) + ' scenes, ' + str(wordCount) + ' words'
 
         if len(self.chapterTitles) == 0:
-            self.chapterTitles.append(['(No chapter titles available)', self.ITALIC_TAG])
+            self.chapterTitles.append(('(No chapter titles available)', self.ITALIC_TAG))
 
         if len(self.chapterDescriptions) == 0:
-            self.chapterDescriptions.append(['(No chapter descriptions available)', self.ITALIC_TAG])
+            self.chapterDescriptions.append(('(No chapter descriptions available)', self.ITALIC_TAG))
 
         if len(self.sceneTitles) == 0:
-            self.sceneTitles.append(['(No scene titles available)', self.ITALIC_TAG])
+            self.sceneTitles.append(('(No scene titles available)', self.ITALIC_TAG))
 
         if len(self.sceneDescriptions) == 0:
-            self.sceneDescriptions.append(['(No scene descriptions available)', self.ITALIC_TAG])
+            self.sceneDescriptions.append(('(No scene descriptions available)', self.ITALIC_TAG))
 
         if len(self.sceneContents) == 0:
-            self.sceneContents.append(['(No scene contents available)', self.ITALIC_TAG])
+            self.sceneContents.append(('(No scene contents available)', self.ITALIC_TAG))
 
         return 'SUCCESS'
 

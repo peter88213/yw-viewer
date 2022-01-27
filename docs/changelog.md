@@ -10,6 +10,12 @@ See the [GitHub "features" project](https://github.com/peter88213/yw-viewer/proj
 
 ### v1.2.1 Optional update
 
+Change the formatting of the chapter title list.
+
+Based on PyWriter v 4.0.1
+
+### v1.2.1 Optional update
+
 Display the text box without a frame.
 
 Based on PyWriter v 4.0.1
