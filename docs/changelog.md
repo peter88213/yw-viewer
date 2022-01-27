@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/yw-viewer/projects/1).
 
+### v1.2.1 Optional update
+
+Display the text box without a frame.
+
+Based on PyWriter v 4.0.1
+
 ### v1.2.0 Rich text display
 
 Based on PyWriter v 4.0.0

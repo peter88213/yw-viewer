@@ -30,7 +30,7 @@ class Yw7ViewerTk(MainTk):
         super().__init__(title, **kwargs)
         self.textBox = RichTextTk(self.mainWindow,  height=20, width=60, undo=True, autoseparators=True, maxundo=-1,
                                   spacing1=10, spacing2=2, wrap='word', padx=40)
-        self.textBox.pack(expand=True, fill='both', padx=4, pady=4)
+        self.textBox.pack(expand=True, fill='both')
 
     def extend_menu(self):
         """Add main menu entries.
