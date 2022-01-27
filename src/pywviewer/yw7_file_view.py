@@ -61,10 +61,10 @@ class Yw7FileView(Yw7File):
         self.descView = []
 
         if self.desc:
-            self.descView.append([self.desc, self.NO_TAG])
+            self.descView.append((self.desc, self.NO_TAG))
 
         else:
-            self.descView.append(['(No project description available)', 'italic'])
+            self.descView.append(('(No project description available)', 'italic'))
 
         self.chapterTitles = []
         self.chapterDescriptions = []
@@ -97,7 +97,7 @@ class Yw7FileView(Yw7File):
 
             if self.chapters[chId].title:
                 self.chapterTitles.append((self.chapters[chId].title + '\n', listTag))
-                sceneHeading = [self.chapters[chId].title + '\n', headingTag]
+                sceneHeading = (self.chapters[chId].title + '\n', headingTag)
                 self.sceneTitles.append(sceneHeading)
 
             # Get chapter descriptions.
