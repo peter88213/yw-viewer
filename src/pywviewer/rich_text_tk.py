@@ -32,32 +32,32 @@ class RichTextTk(scrolledtext.ScrolledText):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        default_font = tkFont.nametofont(self.cget('font'))
+        defaultFont = tkFont.nametofont(self.cget('font'))
 
-        em = default_font.measure('m')
-        default_size = default_font.cget('size')
-        bold_font = tkFont.Font(**default_font.configure())
-        italic_font = tkFont.Font(**default_font.configure())
-        h1_font = tkFont.Font(**default_font.configure())
-        h2_font = tkFont.Font(**default_font.configure())
-        h3_font = tkFont.Font(**default_font.configure())
+        em = defaultFont.measure('m')
+        defaultSize = defaultFont.cget('size')
+        boldFont = tkFont.Font(**defaultFont.configure())
+        italic_font = tkFont.Font(**defaultFont.configure())
+        h1_font = tkFont.Font(**defaultFont.configure())
+        h2_font = tkFont.Font(**defaultFont.configure())
+        h3_font = tkFont.Font(**defaultFont.configure())
 
-        bold_font.configure(weight='bold')
+        boldFont.configure(weight='bold')
         italic_font.configure(slant='italic')
-        h1_font.configure(size=int(default_size * self.H1_SIZE), weight='bold')
-        h2_font.configure(size=int(default_size * self.H2_SIZE), weight='bold')
-        h3_font.configure(size=int(default_size * self.H3_SIZE), weight='bold')
+        h1_font.configure(size=int(defaultSize * self.H1_SIZE), weight='bold')
+        h2_font.configure(size=int(defaultSize * self.H2_SIZE), weight='bold')
+        h3_font.configure(size=int(defaultSize * self.H3_SIZE), weight='bold')
 
-        self.tag_configure(self.BOLD_TAG, font=bold_font)
+        self.tag_configure(self.BOLD_TAG, font=boldFont)
         self.tag_configure(self.ITALIC_TAG, font=italic_font)
-        self.tag_configure(self.H1_TAG, font=h1_font, spacing3=default_size,
-                           justify='center', spacing1=default_size * self.H1_SPACING)
-        self.tag_configure(self.H2_TAG, font=h2_font, spacing3=default_size,
-                           justify='center', spacing1=default_size * self.H2_SPACING)
-        self.tag_configure(self.H3_TAG, font=h3_font, spacing3=default_size, spacing1=default_size * self.H3_SPACING)
-        self.tag_configure(self.CENTER_TAG, justify='center', spacing1=default_size * self.CENTER_SPACING)
+        self.tag_configure(self.H1_TAG, font=h1_font, spacing3=defaultSize,
+                           justify='center', spacing1=defaultSize * self.H1_SPACING)
+        self.tag_configure(self.H2_TAG, font=h2_font, spacing3=defaultSize,
+                           justify='center', spacing1=defaultSize * self.H2_SPACING)
+        self.tag_configure(self.H3_TAG, font=h3_font, spacing3=defaultSize, spacing1=defaultSize * self.H3_SPACING)
+        self.tag_configure(self.CENTER_TAG, justify='center', spacing1=defaultSize * self.CENTER_SPACING)
 
-        lmargin2 = em + default_font.measure('\u2022 ')
+        lmargin2 = em + defaultFont.measure('\u2022 ')
         self.tag_configure(self.BULLET_TAG, lmargin1=em, lmargin2=lmargin2)
 
     def insert_bullet(self, index, text):
