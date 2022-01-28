@@ -37,24 +37,24 @@ class RichTextTk(scrolledtext.ScrolledText):
         em = defaultFont.measure('m')
         defaultSize = defaultFont.cget('size')
         boldFont = tkFont.Font(**defaultFont.configure())
-        italic_font = tkFont.Font(**defaultFont.configure())
-        h1_font = tkFont.Font(**defaultFont.configure())
-        h2_font = tkFont.Font(**defaultFont.configure())
-        h3_font = tkFont.Font(**defaultFont.configure())
+        italicFont = tkFont.Font(**defaultFont.configure())
+        h1Font = tkFont.Font(**defaultFont.configure())
+        h2Font = tkFont.Font(**defaultFont.configure())
+        h3Font = tkFont.Font(**defaultFont.configure())
 
         boldFont.configure(weight='bold')
-        italic_font.configure(slant='italic')
-        h1_font.configure(size=int(defaultSize * self.H1_SIZE), weight='bold')
-        h2_font.configure(size=int(defaultSize * self.H2_SIZE), weight='bold')
-        h3_font.configure(size=int(defaultSize * self.H3_SIZE), weight='bold')
+        italicFont.configure(slant='italic')
+        h1Font.configure(size=int(defaultSize * self.H1_SIZE), weight='bold')
+        h2Font.configure(size=int(defaultSize * self.H2_SIZE), weight='bold')
+        h3Font.configure(size=int(defaultSize * self.H3_SIZE), weight='bold')
 
         self.tag_configure(self.BOLD_TAG, font=boldFont)
-        self.tag_configure(self.ITALIC_TAG, font=italic_font)
-        self.tag_configure(self.H1_TAG, font=h1_font, spacing3=defaultSize,
+        self.tag_configure(self.ITALIC_TAG, font=italicFont)
+        self.tag_configure(self.H1_TAG, font=h1Font, spacing3=defaultSize,
                            justify='center', spacing1=defaultSize * self.H1_SPACING)
-        self.tag_configure(self.H2_TAG, font=h2_font, spacing3=defaultSize,
+        self.tag_configure(self.H2_TAG, font=h2Font, spacing3=defaultSize,
                            justify='center', spacing1=defaultSize * self.H2_SPACING)
-        self.tag_configure(self.H3_TAG, font=h3_font, spacing3=defaultSize, spacing1=defaultSize * self.H3_SPACING)
+        self.tag_configure(self.H3_TAG, font=h3Font, spacing3=defaultSize, spacing1=defaultSize * self.H3_SPACING)
         self.tag_configure(self.CENTER_TAG, justify='center', spacing1=defaultSize * self.CENTER_SPACING)
 
         lmargin2 = em + defaultFont.measure('\u2022 ')
