@@ -125,7 +125,7 @@ class Yw7ViewerTk(MainTk):
         else:
             authorView = 'Unknown author'
 
-        self.titleBar.config(text=titleView + ' by ' + authorView)
+        self.titleBar.config(text=f'{titleView} by {authorView}')
 
         # Get project description.
 
@@ -167,15 +167,15 @@ class Yw7ViewerTk(MainTk):
             # Get chapter titles.
 
             if self.ywPrj.chapters[chId].title:
-                self.chapterTitles.append((self.ywPrj.chapters[chId].title + '\n', listTag))
-                sceneHeading = (self.ywPrj.chapters[chId].title + '\n', headingTag)
+                self.chapterTitles.append((f'{self.ywPrj.chapters[chId].title}\n', listTag))
+                sceneHeading = (f'{self.ywPrj.chapters[chId].title}\n', headingTag)
                 self.sceneTitles.append(sceneHeading)
 
             # Get chapter descriptions.
 
             if self.ywPrj.chapters[chId].desc:
-                self.chapterDescriptions.append((self.ywPrj.chapters[chId].title + '\n', headingTag))
-                self.chapterDescriptions.append((self.ywPrj.chapters[chId].desc + '\n', ''))
+                self.chapterDescriptions.append((f'{self.ywPrj.chapters[chId].title}\n', headingTag))
+                self.chapterDescriptions.append((f'{self.ywPrj.chapters[chId].desc}\n', ''))
 
             for scId in self.ywPrj.chapters[chId].srtScenes:
 
@@ -185,19 +185,19 @@ class Yw7ViewerTk(MainTk):
                     # Get scene titles.
 
                     if self.ywPrj.scenes[scId].title:
-                        self.sceneTitles.append((self.ywPrj.scenes[scId].title + '\n', ''))
+                        self.sceneTitles.append((f'{self.ywPrj.scenes[scId].title}\n', ''))
 
                     # Get scene descriptions.
 
                     if self.ywPrj.scenes[scId].desc:
                         self.sceneDescriptions.append(sceneHeading)
-                        self.sceneDescriptions.append((self.ywPrj.scenes[scId].desc + '\n', ''))
+                        self.sceneDescriptions.append((f'{self.ywPrj.scenes[scId].desc}\n', ''))
 
                     # Get scene contents.
 
                     if self.ywPrj.scenes[scId].sceneContent:
                         self.sceneContents.append(sceneHeading)
-                        self.sceneContents.append((convert_from_yw(self.ywPrj.scenes[scId].sceneContent + '\n'), ''))
+                        self.sceneContents.append((convert_from_yw(f'{self.ywPrj.scenes[scId].sceneContent}\n'), ''))
 
                     sceneHeading = ('* * *\n', RichTextTk.CENTER_TAG)
 
@@ -206,8 +206,7 @@ class Yw7ViewerTk(MainTk):
                     if self.ywPrj.scenes[scId].wordCount:
                         wordCount += self.ywPrj.scenes[scId].wordCount
 
-        self.statView = str(chapterCount) + ' chapters, ' + str(sceneCount) + \
-            ' scenes, ' + str(wordCount) + ' words'
+        self.statView = f'{chapterCount} chapters, {sceneCount} scenes, {wordCount} words'
 
         if len(self.chapterTitles) == 0:
             self.chapterTitles.append(('(No chapter titles available)', RichTextTk.ITALIC_TAG))
