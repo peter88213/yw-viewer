@@ -111,7 +111,7 @@ class Yw7ViewerTk(MainTk):
 
         if message.startswith(ERROR):
             self.close_project()
-            self.statusBar.config(text=message)
+            self.set_info_how(message)
             return ''
 
         if self.ywPrj.title:
@@ -225,7 +225,7 @@ class Yw7ViewerTk(MainTk):
             self.sceneContents.append(('(No scene contents available)', RichTextTk.ITALIC_TAG))
 
         self.show_text(self.prjDescription)
-        self.statusBar.config(text=self.statView)
+        self.set_status(self.statView)
         self.enable_menu()
 
     def close_project(self):
