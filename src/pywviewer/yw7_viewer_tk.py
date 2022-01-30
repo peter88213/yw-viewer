@@ -10,6 +10,7 @@ import re
 import tkinter as tk
 from tkinter import scrolledtext
 
+from pywriter.pywriter_globals import ERROR
 from pywriter.yw.yw7_file import Yw7File
 from pywriter.ui.main_tk import MainTk
 from pywviewer.rich_text_tk import RichTextTk
@@ -108,7 +109,7 @@ class Yw7ViewerTk(MainTk):
         self.ywPrj = Yw7File(fileName)
         message = self.ywPrj.read()
 
-        if message.startswith('ERROR'):
+        if message.startswith(ERROR):
             self.close_project()
             self.statusBar.config(text=message)
             return ''
