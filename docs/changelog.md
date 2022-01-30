@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/yw-viewer/projects/1).
 
+### v1.4.0 Optional update
+
+- Rework the error messaging system.
+- Refactor.
+
+Based on PyWriter v5.0.0
+
 ### v1.2.2 Optional update
 
 Change the formatting of the chapter title list.
