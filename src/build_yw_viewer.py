@@ -10,27 +10,19 @@ For further information see https://github.com/peter88213/yw-viewer
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
 import os
-from pywriter import inliner
+import sys 
+sys.path.insert(0, f'{os.getcwd()}/../../PyWriter/src')
+import inliner
 
 SRC = '../src/'
 BUILD = '../test/'
-SOURCE_FILE_GUI = 'yw_viewer_.pyw'
+SOURCE_FILE_GUI = f'{SRC}yw_viewer_.pyw'
 TARGET_FILE_GUI = f'{BUILD}yw_viewer.pyw'
 
 
 def main():
-    os.chdir(SRC)
-
-    try:
-        os.remove(TARGET_FILE_GUI)
-
-    except:
-        pass
-
-    inliner.run(SOURCE_FILE_GUI,
-                TARGET_FILE_GUI, 'pywviewer', '../src/')
-    inliner.run(TARGET_FILE_GUI,
-                TARGET_FILE_GUI, 'pywriter', '../../PyWriter/src/')
+    inliner.run(SOURCE_FILE_GUI, TARGET_FILE_GUI, 'pywviewer', '../src/')
+    inliner.run(TARGET_FILE_GUI, TARGET_FILE_GUI, 'pywriter', '../../PyWriter/src/')
     print('Done.')
 
 
