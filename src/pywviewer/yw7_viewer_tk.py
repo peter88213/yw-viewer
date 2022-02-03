@@ -207,7 +207,7 @@ class Yw7ViewerTk(MainTk):
                     if self._ywPrj.scenes[scId].wordCount:
                         wordCount += self._ywPrj.scenes[scId].wordCount
 
-        self.statView = f'{chapterCount} chapters, {sceneCount} scenes, {wordCount} words'
+        statView = f'{chapterCount} chapters, {sceneCount} scenes, {wordCount} words'
 
         if len(self._chapterTitles) == 0:
             self._chapterTitles.append(('(No chapter titles available)', RichTextTk.ITALIC_TAG))
@@ -225,7 +225,7 @@ class Yw7ViewerTk(MainTk):
             self._sceneContents.append(('(No scene contents available)', RichTextTk.ITALIC_TAG))
 
         self._show_text(self._prjDescription)
-        self._set_status(self.statView)
+        self._set_status(statView)
         self._enable_menu()
 
     def _close_project(self):
