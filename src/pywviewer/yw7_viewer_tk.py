@@ -68,15 +68,15 @@ class Yw7ViewerTk(MainTk):
         super()._enable_menu()
         self._mainMenu.entryconfig('Quick view', state='normal')
 
-    def _show_text(self, text):
+    def _show_text(self, tagged_text):
         """Load text into the text box.
         Disable text editing.
         """
         self._textBox['state'] = 'normal'
         self._textBox.delete('1.0', tk.END)
 
-        for paragraph in text:
-            self._textBox.insert(tk.END, paragraph[0], paragraph[1])
+        for text, tag in tagged_text:
+            self._textBox.insert(tk.END, text, tag)
 
         self._textBox['state'] = 'disabled'
 
