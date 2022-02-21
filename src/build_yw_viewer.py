@@ -21,7 +21,7 @@ TARGET_FILE_GUI = f'{BUILD}yw_viewer.pyw'
 
 
 def main():
-    inliner.run(SOURCE_FILE_GUI, TARGET_FILE_GUI, 'pywviewer', '../src/')
+    inliner.run(SOURCE_FILE_GUI, TARGET_FILE_GUI, 'ywviewerlib', '../src/')
     inliner.run(TARGET_FILE_GUI, TARGET_FILE_GUI, 'pywriter', '../../PyWriter/src/')
     print('Done.')
 

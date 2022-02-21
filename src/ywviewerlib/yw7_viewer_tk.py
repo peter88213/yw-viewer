@@ -13,7 +13,8 @@ from tkinter import scrolledtext
 from pywriter.pywriter_globals import ERROR
 from pywriter.yw.yw7_file import Yw7File
 from pywriter.ui.main_tk import MainTk
-from pywviewer.rich_text_tk import RichTextTk
+
+from ywviewerlib.rich_text_tk import RichTextTk
 
 
 class Yw7ViewerTk(MainTk):
@@ -120,8 +121,8 @@ class Yw7ViewerTk(MainTk):
         else:
             titleView = 'Untitled yWriter project'
 
-        if self._ywPrj.author:
-            authorView = self._ywPrj.author
+        if self._ywPrj.authorName:
+            authorView = self._ywPrj.authorName
 
         else:
             authorView = 'Unknown author'

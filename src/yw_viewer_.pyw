@@ -13,7 +13,7 @@ import argparse
 from pathlib import Path
 
 from pywriter.config.configuration import Configuration
-from pywviewer.yw7_viewer_tk import Yw7ViewerTk
+from ywviewerlib.yw7_viewer_tk import Yw7ViewerTk
 
 APPNAME = 'yw-viewer'
 
