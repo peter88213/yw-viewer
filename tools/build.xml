@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="yw-viewer" basedir=".">
-	<property name="version" value="2.0.1" />
+	<property name="version" value="2.2.0" />
 	<property name="test-app" value="yw_viewer" />
 	
 	<property name="source-path" location="../src" />

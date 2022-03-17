@@ -37,7 +37,7 @@ class Yw7ViewerTk(MainTk):
         Extends the superclass constructor.
         """
         super().__init__(title, **kwargs)
-        self._textBox = RichTextTk(self._mainWindow,  height=20, width=60, spacing1=10, spacing2=2, wrap='word', padx=40)
+        self._textBox = RichTextTk(self._mainWindow, height=20, width=60, spacing1=10, spacing2=2, wrap='word', padx=40)
         self._textBox.pack(expand=True, fill='both')
         self._prjDescription = []
         self._chapterTitles = []
@@ -46,11 +46,12 @@ class Yw7ViewerTk(MainTk):
         self._sceneDescriptions = []
         self._sceneContents = []
 
-    def _extend_menu(self):
+    def _build_main_menu(self):
         """Add main menu entries.
         
-        Overrides the superclass template method. 
+        Extends the superclass template method. 
         """
+        super()._build_main_menu()
         self._quickViewMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
         self._mainMenu.add_cascade(label='Quick view', menu=self._quickViewMenu)
         self._mainMenu.entryconfig('Quick view', state='disabled')
@@ -137,7 +138,7 @@ class Yw7ViewerTk(MainTk):
             authorView = self._ywPrj.authorName
         else:
             authorView = 'Unknown author'
-        self._titleBar.config(text=f'{titleView} by {authorView}')
+        self._root.title(f'{titleView} by {authorView} - {self._title}')
 
         # Get project description.
         self._prjDescription = []
@@ -173,7 +174,7 @@ class Yw7ViewerTk(MainTk):
                 self._chapterTitles.append((f'{self._ywPrj.chapters[chId].title}\n', listTag))
                 sceneHeading = (f'{self._ywPrj.chapters[chId].title}\n', headingTag)
                 self._sceneTitles.append(sceneHeading)
-            
+
             # Get chapter descriptions.
             if self._ywPrj.chapters[chId].desc:
                 self._chapterDescriptions.append((f'{self._ywPrj.chapters[chId].title}\n', headingTag))
@@ -213,10 +214,10 @@ class Yw7ViewerTk(MainTk):
         if not self._sceneContents:
             self._sceneContents.append(('(No scene contents available)', RichTextTk.ITALIC_TAG))
         self._show_text(self._prjDescription)
-        self._set_status(statView)
+        self._show_status(statView)
         self._enable_menu()
 
-    def _close_project(self):
+    def _close_project(self, event=None):
         """Clear the text box.
         
         Extends the superclass method.
