@@ -19,8 +19,8 @@ SETTINGS = dict(
     yw_last_open='',
     root_geometry='',
     key_restore_status='<Escape>',
-    key_open_project='<Control_L>o',
-    key_on_quit='<Control_L>q',
+    key_open_project='<Control-o>',
+    key_quit_program='<Control-q>',
 )
 OPTIONS = {}
 
