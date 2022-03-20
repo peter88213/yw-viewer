@@ -53,16 +53,16 @@ class Yw7ViewerTk(MainTk):
         """
         super()._build_main_menu()
         self._quickViewMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
-        self._mainMenu.add_cascade(label='Quick view', menu=self._quickViewMenu)
+        self._mainMenu.add_cascade(label='Quick view', underline=0, menu=self._quickViewMenu)
         self._mainMenu.entryconfig('Quick view', state='disabled')
-        self._quickViewMenu.add_command(label='Project description', command=lambda: self._show_text(self._prjDescription))
-        self._quickViewMenu.add_command(label='Chapter titles', command=lambda: self._show_text(self._chapterTitles))
-        self._quickViewMenu.add_command(label='Chapter descriptions',
+        self._quickViewMenu.add_command(label='Project description', underline=0, command=lambda: self._show_text(self._prjDescription))
+        self._quickViewMenu.add_command(label='Chapter titles', underline=8, command=lambda: self._show_text(self._chapterTitles))
+        self._quickViewMenu.add_command(label='Chapter descriptions', underline=0,
                                        command=lambda: self._show_text(self._chapterDescriptions))
-        self._quickViewMenu.add_command(label='Scene titles', command=lambda: self._show_text(self._sceneTitles))
-        self._quickViewMenu.add_command(label='Scene descriptions',
+        self._quickViewMenu.add_command(label='Scene titles', underline=7, command=lambda: self._show_text(self._sceneTitles))
+        self._quickViewMenu.add_command(label='Scene descriptions', underline=6,
                                        command=lambda: self._show_text(self._sceneDescriptions))
-        self._quickViewMenu.add_command(label='Scene contents', command=lambda: self._show_text(self._sceneContents))
+        self._quickViewMenu.add_command(label='Scene contents', underline=7, command=lambda: self._show_text(self._sceneContents))
         self._quickViewMenu.insert_separator(1)
         self._quickViewMenu.insert_separator(4)
 

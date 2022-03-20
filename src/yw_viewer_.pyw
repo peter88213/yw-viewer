@@ -18,9 +18,6 @@ APPNAME = 'yw-viewer'
 SETTINGS = dict(
     yw_last_open='',
     root_geometry='',
-    key_restore_status='<Escape>',
-    key_open_project='<Control-o>',
-    key_quit_program='<Control-q>',
 )
 OPTIONS = {}
 
