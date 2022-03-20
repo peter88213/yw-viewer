@@ -19,8 +19,7 @@ class Yw7ViewerTk(MainTk):
     """A tkinter GUI class for yWriter file viewing.
     
     Public methods:
-        open_project(fileName, fileTypes=[('yWriter 7 project', '.yw7')]) 
-            -- select a valid project file and display the path.
+        open_project(fileName) -- create a yWriter project instance and read the file. 
 
     Show titles, descriptions, and contents in a text box.
     """
@@ -97,7 +96,7 @@ class Yw7ViewerTk(MainTk):
         self._textBox['state'] = 'disabled'
 
     def open_project(self, fileName):
-        """Select a valid project file and display the path.
+        """Create a yWriter project instance and read the file.
 
         Positional arguments:
             fileName -- str: project file path.
@@ -112,6 +111,7 @@ class Yw7ViewerTk(MainTk):
             _sceneContents -- list of tuples: Text containing chapter titles and scene contents.
         (The list entries are tuples containing the text and a formatting tag.)       
         
+        Return True on success, otherwise return False.
         Extends the superclass method.
         """
 
@@ -119,26 +119,8 @@ class Yw7ViewerTk(MainTk):
             """Remove yw7 markup from text."""
             return re.sub('\[\/*[i|b|h|c|r|s|u]\d*\]', '', text)
 
-        fileName = super().open_project(fileName)
-        if not fileName:
-            return ''
-
-        self._ywPrj = Yw7File(fileName)
-        message = self._ywPrj.read()
-        if message.startswith(ERROR):
-            self._close_project()
-            self.set_info_how(message)
-            return ''
-
-        if self._ywPrj.title:
-            titleView = self._ywPrj.title
-        else:
-            titleView = 'Untitled yWriter project'
-        if self._ywPrj.authorName:
-            authorView = self._ywPrj.authorName
-        else:
-            authorView = 'Unknown author'
-        self._root.title(f'{titleView} by {authorView} - {self._title}')
+        if not super().open_project(fileName):
+            return False
 
         # Get project description.
         self._prjDescription = []
@@ -215,7 +197,7 @@ class Yw7ViewerTk(MainTk):
             self._sceneContents.append(('(No scene contents available)', RichTextTk.ITALIC_TAG))
         self._show_text(self._prjDescription)
         self._show_status(statView)
-        self._enable_menu()
+        return True
 
     def _close_project(self, event=None):
         """Clear the text box.
