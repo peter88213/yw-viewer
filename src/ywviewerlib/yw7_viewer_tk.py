@@ -6,14 +6,9 @@ For further information see https://github.com/peter88213/yw-viewer
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
 import os
-import re
 import tkinter as tk
-from tkinter import scrolledtext
-from pywriter.pywriter_globals import ERROR
-from pywriter.yw.yw7_file import Yw7File
 from pywriter.ui.main_tk import MainTk
 from ywviewerlib.file_viewer import FileViewer
-from ywviewerlib.rich_text_tk import RichTextTk
 
 
 class Yw7ViewerTk(MainTk):

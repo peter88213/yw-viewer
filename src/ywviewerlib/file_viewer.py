@@ -5,17 +5,12 @@ Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/yw-viewer
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
-import os
 import re
 import tkinter as tk
-from tkinter import scrolledtext
-from pywriter.pywriter_globals import ERROR
-from pywriter.yw.yw7_file import Yw7File
-from pywriter.ui.main_tk import MainTk
 from ywviewerlib.rich_text_tk import RichTextTk
 
 
-class FileViewer(MainTk):
+class FileViewer:
     """A tkinter text box class for yWriter file viewing.
     
     Public methods:
