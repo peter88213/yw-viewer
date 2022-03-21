@@ -124,8 +124,8 @@ class Yw7ViewerTk(MainTk):
 
         # Get project description.
         self._prjDescription = []
-        if self._ywPrj.desc:
-            self._prjDescription.append((self._ywPrj.desc, ''))
+        if self.ywPrj.desc:
+            self._prjDescription.append((self.ywPrj.desc, ''))
         else:
             self._prjDescription.append(('(No project description available)', 'italic'))
         self._chapterTitles = []
@@ -136,15 +136,15 @@ class Yw7ViewerTk(MainTk):
         chapterCount = 0
         sceneCount = 0
         wordCount = 0
-        for chId in self._ywPrj.srtChapters:
-            if self._ywPrj.chapters[chId].isUnused:
+        for chId in self.ywPrj.srtChapters:
+            if self.ywPrj.chapters[chId].isUnused:
                 continue
 
-            if self._ywPrj.chapters[chId].chType != 0 and self._ywPrj.chapters[chId].oldType != 0:
+            if self.ywPrj.chapters[chId].chType != 0 and self.ywPrj.chapters[chId].oldType != 0:
                 continue
 
             chapterCount += 1
-            if self._ywPrj.chapters[chId].chLevel == 0:
+            if self.ywPrj.chapters[chId].chLevel == 0:
                 headingTag = RichTextTk.H2_TAG
                 listTag = ''
             else:
@@ -152,38 +152,38 @@ class Yw7ViewerTk(MainTk):
                 listTag = RichTextTk.BOLD_TAG
 
             # Get chapter titles.
-            if self._ywPrj.chapters[chId].title:
-                self._chapterTitles.append((f'{self._ywPrj.chapters[chId].title}\n', listTag))
-                sceneHeading = (f'{self._ywPrj.chapters[chId].title}\n', headingTag)
+            if self.ywPrj.chapters[chId].title:
+                self._chapterTitles.append((f'{self.ywPrj.chapters[chId].title}\n', listTag))
+                sceneHeading = (f'{self.ywPrj.chapters[chId].title}\n', headingTag)
                 self._sceneTitles.append(sceneHeading)
 
             # Get chapter descriptions.
-            if self._ywPrj.chapters[chId].desc:
-                self._chapterDescriptions.append((f'{self._ywPrj.chapters[chId].title}\n', headingTag))
-                self._chapterDescriptions.append((f'{self._ywPrj.chapters[chId].desc}\n', ''))
+            if self.ywPrj.chapters[chId].desc:
+                self._chapterDescriptions.append((f'{self.ywPrj.chapters[chId].title}\n', headingTag))
+                self._chapterDescriptions.append((f'{self.ywPrj.chapters[chId].desc}\n', ''))
 
-            for scId in self._ywPrj.chapters[chId].srtScenes:
-                if not (self._ywPrj.scenes[scId].isUnused or self._ywPrj.scenes[scId].isNotesScene or self._ywPrj.scenes[scId].isTodoScene):
+            for scId in self.ywPrj.chapters[chId].srtScenes:
+                if not (self.ywPrj.scenes[scId].isUnused or self.ywPrj.scenes[scId].isNotesScene or self.ywPrj.scenes[scId].isTodoScene):
                     sceneCount += 1
 
                     # Get scene titles.
-                    if self._ywPrj.scenes[scId].title:
-                        self._sceneTitles.append((f'{self._ywPrj.scenes[scId].title}\n', ''))
+                    if self.ywPrj.scenes[scId].title:
+                        self._sceneTitles.append((f'{self.ywPrj.scenes[scId].title}\n', ''))
 
                     # Get scene descriptions.
-                    if self._ywPrj.scenes[scId].desc:
+                    if self.ywPrj.scenes[scId].desc:
                         self._sceneDescriptions.append(sceneHeading)
-                        self._sceneDescriptions.append((f'{self._ywPrj.scenes[scId].desc}\n', ''))
+                        self._sceneDescriptions.append((f'{self.ywPrj.scenes[scId].desc}\n', ''))
 
                     # Get scene contents.
-                    if self._ywPrj.scenes[scId].sceneContent:
+                    if self.ywPrj.scenes[scId].sceneContent:
                         self._sceneContents.append(sceneHeading)
-                        self._sceneContents.append((convert_from_yw(f'{self._ywPrj.scenes[scId].sceneContent}\n'), ''))
+                        self._sceneContents.append((convert_from_yw(f'{self.ywPrj.scenes[scId].sceneContent}\n'), ''))
                     sceneHeading = ('* * *\n', RichTextTk.CENTER_TAG)
 
                     # Get scene word count.
-                    if self._ywPrj.scenes[scId].wordCount:
-                        wordCount += self._ywPrj.scenes[scId].wordCount
+                    if self.ywPrj.scenes[scId].wordCount:
+                        wordCount += self.ywPrj.scenes[scId].wordCount
         statView = f'{chapterCount} chapters, {sceneCount} scenes, {wordCount} words'
         if not self._chapterTitles:
             self._chapterTitles.append(('(No chapter titles available)', RichTextTk.ITALIC_TAG))
@@ -196,7 +196,7 @@ class Yw7ViewerTk(MainTk):
         if not self._sceneContents:
             self._sceneContents.append(('(No scene contents available)', RichTextTk.ITALIC_TAG))
         self._show_text(self._prjDescription)
-        self._show_status(statView)
+        self.show_status(statView)
         return True
 
     def _close_project(self, event=None):
