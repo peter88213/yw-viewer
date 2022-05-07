@@ -15,7 +15,10 @@ class Yw7ViewerTk(MainTk):
     """A tkinter GUI class for yWriter file viewing.
     
     Public methods:
+        disable_menu() -- disable menu entries when no project is open.
+        enable_menu() -- enable menu entries when a project is open.
         open_project(fileName) -- create a yWriter project instance and read the file. 
+        close_project() -- close the yWriter project without saving and reset the user interface.
 
     Public instance variables:
         treeWindow -- tk window for the project tree.
@@ -36,7 +39,7 @@ class Yw7ViewerTk(MainTk):
         """
         self.kwargs = kwargs
         super().__init__(title, **kwargs)
-        self.viewerWindow = tk.Frame(self._mainWindow)
+        self.viewerWindow = tk.Frame(self.mainWindow)
         self.viewerWindow.pack(expand=True, fill='both')
         self._fv = FileViewer(self)
 
@@ -46,9 +49,9 @@ class Yw7ViewerTk(MainTk):
         Extends the superclass template method. 
         """
         super()._build_main_menu()
-        self._quickViewMenu = tk.Menu(self._mainMenu, title='my title', tearoff=0)
-        self._mainMenu.add_cascade(label='Quick view', underline=0, menu=self._quickViewMenu)
-        self._mainMenu.entryconfig('Quick view', state='disabled')
+        self._quickViewMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
+        self.mainMenu.add_cascade(label='Quick view', underline=0, menu=self._quickViewMenu)
+        self.mainMenu.entryconfig('Quick view', state='disabled')
         self._quickViewMenu.add_command(label='Project description', underline=0,
                                         command=lambda: self._fv.view_text(self._fv.prjDescription))
         self._quickViewMenu.add_command(label='Chapter titles', underline=8,
@@ -64,21 +67,21 @@ class Yw7ViewerTk(MainTk):
         self._quickViewMenu.insert_separator(1)
         self._quickViewMenu.insert_separator(4)
 
-    def _disable_menu(self):
+    def disable_menu(self):
         """Disable menu entries when no project is open.
         
         Extends the superclass method.      
         """
         super()._disable_menu()
-        self._mainMenu.entryconfig('Quick view', state='disabled')
+        self.mainMenu.entryconfig('Quick view', state='disabled')
 
-    def _enable_menu(self):
+    def enable_menu(self):
         """Enable menu entries when a project is open.
         
         Extends the superclass method.
         """
-        super()._enable_menu()
-        self._mainMenu.entryconfig('Quick view', state='normal')
+        super().enable_menu()
+        self.mainMenu.entryconfig('Quick view', state='normal')
 
     def open_project(self, fileName):
         """Create a yWriter project instance and prepare the content for viewing.
@@ -97,7 +100,7 @@ class Yw7ViewerTk(MainTk):
         self._fv.view_text(self._fv.prjDescription)
         return True
 
-    def _close_project(self, event=None):
+    def close_project(self, event=None):
         """Clear the text box.
         
         Extends the superclass method.
