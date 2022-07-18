@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/yw-viewer/projects/1).
 
+### v2.2.5 Update setup script
+
+- Change the working dir to the script dir on startup in order to avoid "file not found" error.
+
+Based on PyWriter v5.18.0
+
 ### v2.2.4 Improved setup
 
 - Catch exceptions in the setup script.
