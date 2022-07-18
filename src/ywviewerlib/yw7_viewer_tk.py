@@ -72,7 +72,7 @@ class Yw7ViewerTk(MainTk):
         
         Extends the superclass method.      
         """
-        super()._disable_menu()
+        super().disable_menu()
         self.mainMenu.entryconfig('Quick view', state='disabled')
 
     def enable_menu(self):
@@ -105,5 +105,5 @@ class Yw7ViewerTk(MainTk):
         
         Extends the superclass method.
         """
-        super()._close_project()
+        super().close_project()
         self._fv.reset_view()

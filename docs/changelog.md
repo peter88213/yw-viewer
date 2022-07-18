@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/yw-viewer/projects/1).
 
+### v2.2.6 Bugfix release
+
+- Update to PyWriter 5.18.0 API. This fixes a bug where projects can't be changed nor closed.
+
+Based on PyWriter v5.18.0
+
 ### v2.2.5 Update setup script
 
 - Change the working dir to the script dir on startup in order to avoid "file not found" error.
