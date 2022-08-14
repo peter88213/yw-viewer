@@ -4,7 +4,6 @@ Modules:
 
 yw7_file_view -- Provide a class for yWriter file viewing.
 file_viewer -- provide a tkinter text box class for file viewing.
-yw7_viewer_tk -- Provide a tkinter GUI framework for yWriter file viewing.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/yw-viewer

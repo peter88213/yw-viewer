@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """"Provide a tkinter text box class for file viewing.
 
 Copyright (c) 2022 Peter Triesberger
