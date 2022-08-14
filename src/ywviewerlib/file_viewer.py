@@ -7,7 +7,7 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 """
 import re
 import tkinter as tk
-from ywviewerlib.rich_text_tk import RichTextTk
+from pywriter.ui.rich_text_tk import RichTextTk
 
 
 class FileViewer:
