@@ -91,7 +91,7 @@ class FileViewer:
             if self._ui.ywPrj.chapters[chId].isUnused:
                 continue
 
-            if self._ui.ywPrj.chapters[chId].chType != 0 and self._ui.ywPrj.chapters[chId].oldType != 0:
+            if self._ui.ywPrj.chapters[chId].chType != 0:
                 continue
 
             chapterCount += 1
