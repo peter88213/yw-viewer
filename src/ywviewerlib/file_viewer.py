@@ -88,9 +88,6 @@ class FileViewer:
         sceneCount = 0
         wordCount = 0
         for chId in self._ui.ywPrj.srtChapters:
-            if self._ui.ywPrj.chapters[chId].isUnused:
-                continue
-
             if self._ui.ywPrj.chapters[chId].chType != 0:
                 continue
 
