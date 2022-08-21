@@ -111,7 +111,7 @@ class FileViewer:
                 self.chapterDescriptions.append((f'{self._ui.ywPrj.chapters[chId].desc}\n', ''))
 
             for scId in self._ui.ywPrj.chapters[chId].srtScenes:
-                if not (self._ui.ywPrj.scenes[scId].isUnused or self._ui.ywPrj.scenes[scId].isNotesScene or self._ui.ywPrj.scenes[scId].isTodoScene):
+                if self._ui.ywPrj.scenes[scId].scType == 0:
                     sceneCount += 1
 
                     # Get scene titles.
