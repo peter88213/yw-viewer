@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/yw-viewer/projects/1).
 
+### v2.2.7 Optional release
+
+- Code refactoring and library update.
+
+Based on PyWriter v7.2.1
+
 ### v2.2.6 Bugfix release
 
 - Update to PyWriter 5.18.0 API. This fixes a bug where projects can't be changed nor closed.
