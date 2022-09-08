@@ -11,6 +11,7 @@ import os
 import sys
 import stat
 from shutil import copyfile
+from shutil import copytree
 from pathlib import Path
 from string import Template
 try:
@@ -131,6 +132,10 @@ def install(pywriterPath):
     # Install the new version.
     copyfile(APP, f'{installDir}/{APP}')
     output(f'Copying "{APP}"')
+
+    # Install the icon files.
+    copytree('icons', f'{installDir}/icons', dirs_exist_ok=True)
+    output(f'Copying "icons"')
 
     # Make the script executable under Linux.
     st = os.stat(f'{installDir}/{APP}')

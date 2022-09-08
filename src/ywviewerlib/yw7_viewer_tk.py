@@ -7,6 +7,7 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 import os
 import tkinter as tk
 from pywriter.ui.main_tk import MainTk
+from pywriter.ui.set_icon_tk import *
 from ywviewerlib.file_viewer import FileViewer
 
 
@@ -38,6 +39,7 @@ class Yw7ViewerTk(MainTk):
         """
         self.kwargs = kwargs
         super().__init__(title, **kwargs)
+        set_icon(self.root, icon='vLogo32')
         self.viewerWindow = tk.Frame(self.mainWindow)
         self.viewerWindow.pack(expand=True, fill='both')
         self._fv = FileViewer(self)

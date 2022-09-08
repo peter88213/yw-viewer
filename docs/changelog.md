@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/yw-viewer/projects/1).
 
+### v2.2.8
+
+- Set own window icon.
+
+Based on PyWriter v7.4.1
+
 ### v2.2.7 Optional release
 
 - Code refactoring and library update.
