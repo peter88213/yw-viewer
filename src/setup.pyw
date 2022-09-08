@@ -12,6 +12,7 @@ import sys
 import stat
 from shutil import copyfile
 from shutil import copytree
+from shutil import rmtree
 from pathlib import Path
 from string import Template
 try:
@@ -123,6 +124,7 @@ def install(pywriterPath):
     os.makedirs(cnfDir, exist_ok=True)
 
     # Delete the old version, but retain configuration, if any.
+    rmtree(f'{installDir}/icons', ignore_errors=True)
     with os.scandir(installDir) as files:
         for file in files:
             if not 'config' in file.name:
