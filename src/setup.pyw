@@ -15,11 +15,24 @@ from shutil import copytree
 from shutil import rmtree
 from pathlib import Path
 from string import Template
+import gettext
+import locale
 try:
     from tkinter import *
 except ModuleNotFoundError:
     print('The tkinter module is missing. Please install the tk support package for your python3 version.')
     sys.exit(1)
+
+# Initialize localization.
+LOCALE_PATH = f'{os.path.dirname(sys.argv[0])}/locale/'
+CURRENT_LANGUAGE = locale.getdefaultlocale()[0][:2]
+try:
+    t = gettext.translation('reg', LOCALE_PATH, languages=[CURRENT_LANGUAGE])
+    _ = t.gettext
+except:
+
+    def _(message):
+        return message
 
 APPNAME = 'yw-viewer'
 VERSION = ' @release'
@@ -43,17 +56,21 @@ On Linux, create a launcher on your desktop. With xfce for instance, the launche
 python3 '$Apppath' %F
 '''
 
-SET_CONTEXT_MENU = '''Windows Registry Editor Version 5.00
+SET_CONTEXT_MENU = f'''Windows Registry Editor Version 5.00
 
-[HKEY_CURRENT_USER\Software\Classes\\yWriter7\\shell\\View]
-[HKEY_CURRENT_USER\SOFTWARE\Classes\\yWriter7\\shell\\View\\command]
-@="\\"${PYTHON}\\" \\"${SCRIPT}\\" \\"%1\\""
+[-HKEY_CURRENT_USER\Software\Classes\yWriter7\shell\View]
+[-HKEY_CURRENT_USER\Software\Classes\yWriter7\shell\View (yw-viewer)]
+[HKEY_CURRENT_USER\Software\Classes\\yWriter7\\shell\\{_("View")} (yw-viewer)]
+[HKEY_CURRENT_USER\SOFTWARE\Classes\\yWriter7\\shell\\{_("View")} (yw-viewer)\\command]
+@="\\"$PYTHON\\" \\"$SCRIPT\\" \\"%1\\""
 
 '''
 
-RESET_CONTEXT_MENU = '''Windows Registry Editor Version 5.00
+RESET_CONTEXT_MENU = f'''Windows Registry Editor Version 5.00
 
 [-HKEY_CURRENT_USER\Software\Classes\yWriter7\shell\View]
+[-HKEY_CURRENT_USER\Software\Classes\yWriter7\shell\View (yw-viewer)]
+[-HKEY_CURRENT_USER\Software\Classes\yWriter7\shell\{_("View")} (yw-viewer)]
 
 '''
 
@@ -124,6 +141,7 @@ def install(pywriterPath):
     os.makedirs(cnfDir, exist_ok=True)
 
     # Delete the old version, but retain configuration, if any.
+    rmtree(f'{installDir}/locale', ignore_errors=True)
     rmtree(f'{installDir}/icons', ignore_errors=True)
     with os.scandir(installDir) as files:
         for file in files:
@@ -138,6 +156,10 @@ def install(pywriterPath):
     # Install the icon files.
     copytree('icons', f'{installDir}/icons', dirs_exist_ok=True)
     output(f'Copying "icons"')
+
+    # Install the localization files.
+    copytree('locale', f'{installDir}/locale', dirs_exist_ok=True)
+    output(f'Copying "locale"')
 
     # Make the script executable under Linux.
     st = os.stat(f'{installDir}/{APP}')

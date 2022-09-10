@@ -8,6 +8,13 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/yw-viewer/projects/1).
 
+### v2.4.0
+
+- Add internationalization according to GNU coding standards.
+- Provide German localization.
+
+Based on PyWriter v7.4.1
+
 ### v2.2.8
 
 - Set own window icon.

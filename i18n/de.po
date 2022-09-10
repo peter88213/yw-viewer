@@ -1,0 +1,111 @@
+# yw-viewer Dictionary (English-German)
+# Copyright (C) 2022 Peter Triesberger
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 2.4.0\n"
+"POT-Creation-Date: 2022-09-10 23:05:19\n"
+"PO-Revision-Date: 2022-09-10 23:05:19\n"
+"Last-Translator: Peter Triesberger\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+
+msgid "Can not process file"
+msgstr "Kann Datei nicht verarbeiten"
+
+msgid "Cannot write file"
+msgstr "Kann Datei nicht schreiben"
+
+msgid "Chapter descriptions"
+msgstr "Kapitelbeschreibungen"
+
+msgid "Chapter titles"
+msgstr "Kapiteltitel"
+
+msgid "Close"
+msgstr "Schließen"
+
+msgid "Exit"
+msgstr "Beenden"
+
+msgid "File"
+msgstr "Datei"
+
+msgid "File written"
+msgstr "Datei gespeichert"
+
+msgid "New Chapter"
+msgstr "Neues Kapitel"
+
+msgid "New Part"
+msgstr "Neuer Teil"
+
+msgid "New Scene"
+msgstr "Neue Szene"
+
+msgid "No chapter descriptions available"
+msgstr "Keine Kapitelbeschreibungen verfügbar"
+
+msgid "No chapter titles available"
+msgstr "Keine Kapiteltitel verfügbar"
+
+msgid "No project description available"
+msgstr "Keine Projektbeschreibung verfügbar"
+
+msgid "No scene contents available"
+msgstr "Keine Szeneninhalte verfügbar"
+
+msgid "No scene descriptions available"
+msgstr "Keine Szenenbeschreibungen verfügbar"
+
+msgid "No scene titles available"
+msgstr "Keine Szenentitel verfügbar"
+
+msgid "Novel"
+msgstr "Roman"
+
+msgid "Open..."
+msgstr "Öffnen..."
+
+msgid "Project description"
+msgstr "Projektbeschreibung"
+
+msgid "Quick view"
+msgstr "Schnellansicht"
+
+msgid "Scene contents"
+msgstr "Szeneninhalte"
+
+msgid "Scene descriptions"
+msgstr "Szenebeschreibungen"
+
+msgid "Scene titles"
+msgstr "Szenentitel"
+
+msgid "Unknown author"
+msgstr "Unbekannter Autor"
+
+msgid "Untitled yWriter project"
+msgstr "yWriter-Projekt ohne Titel"
+
+msgid "by"
+msgstr "von"
+
+msgid "chapters"
+msgstr "Kapitel"
+
+msgid "scenes"
+msgstr "Szenen"
+
+msgid "words"
+msgstr "Wörter"
+
+msgid "yWriter 7 project"
+msgstr "yWriter 7-Projekt"
+
+msgid "yWriter seems to be open. Please close first"
+msgstr "yWriter scheint offen zu sein. Bitte schließen"
+

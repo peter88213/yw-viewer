@@ -13,13 +13,13 @@ import inliner
 
 SRC = '../src/'
 BUILD = '../test/'
-SOURCE_FILE_GUI = f'{SRC}yw_viewer_.pyw'
-TARGET_FILE_GUI = f'{BUILD}yw_viewer.pyw'
+SOURCE_FILE = f'{SRC}yw_viewer_.pyw'
+TARGET_FILE = f'{BUILD}yw_viewer.pyw'
 
 
 def main():
-    inliner.run(SOURCE_FILE_GUI, TARGET_FILE_GUI, 'ywviewerlib', '../src/')
-    inliner.run(TARGET_FILE_GUI, TARGET_FILE_GUI, 'pywriter', '../src/')
+    inliner.run(SOURCE_FILE, TARGET_FILE, 'ywviewerlib', '../src/')
+    inliner.run(TARGET_FILE, TARGET_FILE, 'pywriter', '../src/')
     print('Done.')
 
 

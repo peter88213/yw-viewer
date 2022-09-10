@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="yw-viewer" basedir=".">
-	<property name="version" value="2.2.8" />
+	<property name="version" value="2.4.0" />
 	<property name="test-app" value="yw_viewer" />
 	
 	<property name="source-path" location="../src" />
@@ -8,13 +8,19 @@
 	<property name="build-path" location="../build" />
 	<property name="dist-path" location="../dist" />
 	<property name="docs-path" location="../docs" />
+	<property name="i18n-path" location="../i18n" />
 	<property name="application" value="${ant.project.name}" />
 	<property name="release" value="${application}_v${version}" />
 
 	<target name="build" description="inline all library modules">
 		<delete file="${test-path}/${test-app}.pyw" />
 		<exec executable="python" failonerror="true">
-		    <arg value="${source-path}/build_${test-app}.py"/>
+		    <arg value="${source-path}/make_pot.py"/>
+		    <arg value="${version}"/>
+		</exec>
+		<exec executable="python" failonerror="true">
+		    <arg value="${source-path}/translate_de.py"/>
+		    <arg value="${version}"/>
 		</exec>
 	</target>
 
@@ -43,6 +49,10 @@
 		<copy file="${docs-path}/usage.md" tofile="${build-path}/${release}/README.md" />
 		
 		<fixcrlf encoding="utf-8" eol="lf" srcdir="${build-path}/${release}" includes="**/*.*" />
+		
+		<copy todir="${build-path}/${release}/locale"> 
+			<fileset dir="${i18n-path}/locale" />
+		</copy>
 		
 		<copy todir="${build-path}/${release}/icons"> 
 			<fileset dir="${source-path}/icons" />

@@ -1,3 +1,5 @@
+/test/yw_viewer.pyw
 /test/yw7/
 /build/
 *.pyc
+*.bak

@@ -6,6 +6,7 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 """
 import os
 import tkinter as tk
+from pywriter.pywriter_globals import *
 from pywriter.ui.main_tk import MainTk
 from pywriter.ui.set_icon_tk import *
 from ywviewerlib.file_viewer import FileViewer
@@ -50,20 +51,20 @@ class Yw7ViewerTk(MainTk):
         Extends the superclass template method. 
         """
         super()._build_main_menu()
-        self._quickViewMenu = tk.Menu(self.mainMenu, title='my title', tearoff=0)
-        self.mainMenu.add_cascade(label='Quick view', underline=0, menu=self._quickViewMenu)
-        self.mainMenu.entryconfig('Quick view', state='disabled')
-        self._quickViewMenu.add_command(label='Project description', underline=0,
+        self._quickViewMenu = tk.Menu(self.mainMenu, tearoff=0)
+        self.mainMenu.add_cascade(label=_('Quick view'), menu=self._quickViewMenu)
+        self.mainMenu.entryconfig(_('Quick view'), state='disabled')
+        self._quickViewMenu.add_command(label=_('Project description'),
                                         command=lambda: self._fv.view_text(self._fv.prjDescription))
-        self._quickViewMenu.add_command(label='Chapter titles', underline=8,
+        self._quickViewMenu.add_command(label=_('Chapter titles'),
                                         command=lambda: self._fv.view_text(self._fv.chapterTitles))
-        self._quickViewMenu.add_command(label='Chapter descriptions', underline=0,
+        self._quickViewMenu.add_command(label=_('Chapter descriptions'),
                                        command=lambda: self._fv.view_text(self._fv.chapterDescriptions))
-        self._quickViewMenu.add_command(label='Scene titles', underline=7,
+        self._quickViewMenu.add_command(label=_('Scene titles'),
                                         command=lambda: self._fv.view_text(self._fv.sceneTitles))
-        self._quickViewMenu.add_command(label='Scene descriptions', underline=6,
+        self._quickViewMenu.add_command(label=_('Scene descriptions'),
                                        command=lambda: self._fv.view_text(self._fv.sceneDescriptions))
-        self._quickViewMenu.add_command(label='Scene contents', underline=7,
+        self._quickViewMenu.add_command(label=_('Scene contents'),
                                         command=lambda: self._fv.view_text(self._fv.sceneContents))
         self._quickViewMenu.insert_separator(1)
         self._quickViewMenu.insert_separator(4)
@@ -74,7 +75,7 @@ class Yw7ViewerTk(MainTk):
         Extends the superclass method.      
         """
         super().disable_menu()
-        self.mainMenu.entryconfig('Quick view', state='disabled')
+        self.mainMenu.entryconfig(_('Quick view'), state='disabled')
 
     def enable_menu(self):
         """Enable menu entries when a project is open.
@@ -82,7 +83,7 @@ class Yw7ViewerTk(MainTk):
         Extends the superclass method.
         """
         super().enable_menu()
-        self.mainMenu.entryconfig('Quick view', state='normal')
+        self.mainMenu.entryconfig(_('Quick view'), state='normal')
 
     def open_project(self, fileName):
         """Create a yWriter project instance and prepare the content for viewing.

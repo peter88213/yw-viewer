@@ -28,9 +28,12 @@ For more information, see the [project homepage](https://peter88213.github.io/yw
 - [Python](https://python.org) version 3.9
 - [Eclipse IDE](https://eclipse.org) with [PyDev](https://pydev.org) and [EGit](https://www.eclipse.org/egit/)
 - [Apache Ant](https://ant.apache.org/) for building the application script
+
 ## Credits
 
-Bryan Oakley presented a Rich Text example on [stack overflow](https://stackoverflow.com/questions/63099026/fomatted-text-in-tkinter).
+- Bryan Oakley presented a Rich Text example on [stack overflow](https://stackoverflow.com/questions/63099026/fomatted-text-in-tkinter).
+- The icons are made using the free *Pusab* font by Ryoichi Tsunekawa, [Flat-it](http://flat-it.com/).
+
 
 ## License
 

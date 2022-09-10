@@ -17,6 +17,7 @@ The *yw-viewer* script is mainly intended for Linux users who manage multiple yW
 - View scene contents.
 - Only "normal" chapters and scenes are shown. "Notes", "To Do", and unused chapters/scenes are left out.
 - All can be selected and copied. 
+- The application is ready for internationalization with GNU gettext. A German localization is provided. 
 
 ## Requirements
 
@@ -46,8 +47,8 @@ See the [instructions for use](usage)
 
 ## Credits
 
-Bryan Oakley presented a Rich Text example on [stack overflow](https://stackoverflow.com/questions/63099026/fomatted-text-in-tkinter).
-
+- Bryan Oakley presented a Rich Text example on [stack overflow](https://stackoverflow.com/questions/63099026/fomatted-text-in-tkinter).
+- The icons are made using the free *Pusab* font by Ryoichi Tsunekawa, [Flat-it](http://flat-it.com/).
 
 ## License
 

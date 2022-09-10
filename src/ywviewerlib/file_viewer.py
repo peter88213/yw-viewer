@@ -6,6 +6,7 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 """
 import re
 import tkinter as tk
+from pywriter.pywriter_globals import *
 from pywriter.ui.rich_text_tk import RichTextTk
 
 
@@ -78,7 +79,7 @@ class FileViewer:
         if self._ui.ywPrj.desc:
             self.prjDescription.append((self._ui.ywPrj.desc, ''))
         else:
-            self.prjDescription.append(('(No project description available)', 'italic'))
+            self.prjDescription.append((f'({_("No project description available")})', 'italic'))
         self.chapterTitles = []
         self.chapterDescriptions = []
         self.sceneTitles = []
@@ -133,16 +134,16 @@ class FileViewer:
                     if self._ui.ywPrj.scenes[scId].wordCount:
                         wordCount += self._ui.ywPrj.scenes[scId].wordCount
         if not self.chapterTitles:
-            self.chapterTitles.append(('(No chapter titles available)', RichTextTk.ITALIC_TAG))
+            self.chapterTitles.append((f'{_("No chapter titles available")})', RichTextTk.ITALIC_TAG))
         if not self.chapterDescriptions:
-            self.chapterDescriptions.append(('(No chapter descriptions available)', RichTextTk.ITALIC_TAG))
+            self.chapterDescriptions.append((f'({_("No chapter descriptions available")})', RichTextTk.ITALIC_TAG))
         if not self.sceneTitles:
-            self.sceneTitles.append(('(No scene titles available)', RichTextTk.ITALIC_TAG))
+            self.sceneTitles.append((f'{_("No scene titles available")})', RichTextTk.ITALIC_TAG))
         if not self.sceneDescriptions:
-            self.sceneDescriptions.append(('(No scene descriptions available)', RichTextTk.ITALIC_TAG))
+            self.sceneDescriptions.append((f'({_("No scene descriptions available")})', RichTextTk.ITALIC_TAG))
         if not self.sceneContents:
-            self.sceneContents.append(('(No scene contents available)', RichTextTk.ITALIC_TAG))
-        return f'{chapterCount} chapters, {sceneCount} scenes, {wordCount} words'
+            self.sceneContents.append((f'({_("No scene contents available")})', RichTextTk.ITALIC_TAG))
+        return f'{chapterCount} {_("chapters")}, {sceneCount} {_("scenes")}, {wordCount} {_("words")}'
 
     def reset_view(self):
         """Clear the text box."""
