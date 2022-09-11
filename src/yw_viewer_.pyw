@@ -47,7 +47,7 @@ def run(sourcePath='', installDir='.'):
             configuration.options[keyword] = viewer.kwargs[keyword]
         elif keyword in configuration.settings:
             configuration.settings[keyword] = viewer.kwargs[keyword]
-        configuration.write(iniFile)
+    configuration.write(iniFile)
 
 
 if __name__ == '__main__':

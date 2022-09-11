@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/yw-viewer/projects/1).
 
+### v2.4.1
+
+- Code optimization: avoid excess write accesses to the configuration.
+
+Based on PyWriter v7.4.1
+
 ### v2.4.0
 
 - Add internationalization according to GNU coding standards.
