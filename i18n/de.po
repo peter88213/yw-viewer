@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.4.1\n"
-"POT-Creation-Date: 2022-09-11 11:42:51\n"
-"PO-Revision-Date: 2022-09-11 11:42:51\n"
+"Project-Id-Version: 2.4.2\n"
+"POT-Creation-Date: 2022-10-28 12:29:53\n"
+"PO-Revision-Date: 2022-10-28 12:29:53\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -88,8 +88,8 @@ msgstr "Szenentitel"
 msgid "Unknown author"
 msgstr "Unbekannter Autor"
 
-msgid "Untitled yWriter project"
-msgstr "yWriter-Projekt ohne Titel"
+msgid "Untitled project"
+msgstr "Projekt ohne Titel"
 
 msgid "by"
 msgstr "von"

@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/yw-viewer/projects/1).
 
+### v2.4.2
+
+- Update the PyWriter library for future Python versions.
+
+Based on PyWriter v7.14.2
+
 ### v2.4.1
 
 - Code optimization: avoid excess write accesses to the configuration.
