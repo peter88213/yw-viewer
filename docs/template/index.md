@@ -21,7 +21,7 @@ The *yw-viewer* script is mainly intended for Linux users who manage multiple yW
 
 ## Requirements
 
-- [Python](https://www.python.org/) 3.6 =< version <= 3.10.
+- [Python](https://www.python.org/) version 3.6+.
 - Tk support for Python. This is usually part of the Windows Python installation, but may need to be installed additionally under Linux.
 
 ## Download and install
