@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/yw-viewer/projects/1).
 
+### v2.4.3
+
+- Modify "shebang" line to make the script run with Python 3.11 under Windows.
+
+Based on PyWriter v7.14.2
+
 ### v2.4.2
 
 - Update the PyWriter library for future Python versions.
