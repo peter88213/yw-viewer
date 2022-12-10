@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.4.3\n"
-"POT-Creation-Date: 2022-12-08 19:29:10\n"
-"PO-Revision-Date: 2022-12-08 19:29:10\n"
+"Project-Id-Version: 2.4.4\n"
+"POT-Creation-Date: 2022-12-10 22:41:17\n"
+"PO-Revision-Date: 2022-12-10 22:41:17\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -15,6 +15,9 @@ msgstr ""
 
 msgid "Can not process file"
 msgstr "Kann Datei nicht verarbeiten"
+
+msgid "Cannot overwrite file"
+msgstr "Kann Datei nicht überschreiben"
 
 msgid "Cannot write file"
 msgstr "Kann Datei nicht schreiben"
@@ -34,18 +37,6 @@ msgstr "Beenden"
 msgid "File"
 msgstr "Datei"
 
-msgid "File written"
-msgstr "Datei gespeichert"
-
-msgid "New Chapter"
-msgstr "Neues Kapitel"
-
-msgid "New Part"
-msgstr "Neuer Teil"
-
-msgid "New Scene"
-msgstr "Neue Szene"
-
 msgid "No chapter descriptions available"
 msgstr "Keine Kapitelbeschreibungen verfügbar"
 
@@ -63,9 +54,6 @@ msgstr "Keine Szenenbeschreibungen verfügbar"
 
 msgid "No scene titles available"
 msgstr "Keine Szenentitel verfügbar"
-
-msgid "Novel"
-msgstr "Roman"
 
 msgid "Open..."
 msgstr "Öffnen..."

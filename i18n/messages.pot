@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.4.3\n"
-"POT-Creation-Date: 2022-12-08 19:29:10\n"
+"Project-Id-Version: 2.4.4\n"
+"POT-Creation-Date: 2022-12-10 22:41:17\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -15,6 +15,9 @@ msgstr ""
 
 
 msgid "Can not process file"
+msgstr ""
+
+msgid "Cannot overwrite file"
 msgstr ""
 
 msgid "Cannot write file"
@@ -35,18 +38,6 @@ msgstr ""
 msgid "File"
 msgstr ""
 
-msgid "File written"
-msgstr ""
-
-msgid "New Chapter"
-msgstr ""
-
-msgid "New Part"
-msgstr ""
-
-msgid "New Scene"
-msgstr ""
-
 msgid "No chapter descriptions available"
 msgstr ""
 
@@ -63,9 +54,6 @@ msgid "No scene descriptions available"
 msgstr ""
 
 msgid "No scene titles available"
-msgstr ""
-
-msgid "Novel"
 msgstr ""
 
 msgid "Open..."
