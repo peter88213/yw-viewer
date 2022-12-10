@@ -1,4 +1,4 @@
-""""Provide a tkinter GUI framework with main menu and main window.
+"""Provide a tkinter GUI framework with main menu and main window.
 
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/PyWriter
@@ -10,6 +10,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 from pywriter.pywriter_globals import *
 from pywriter.ui.ui import Ui
+from pywriter.model.novel import Novel
 from pywriter.yw.yw7_file import Yw7File
 
 
@@ -35,7 +36,7 @@ class MainTk(Ui):
         title -- str: Application title.
         statusText -- str: Text to be displayed at the status bar.
         kwargs -- keyword arguments buffer.
-        ywPrj -- yWriter project to work with.
+        prjFile -- yWriter project to work with.
         root -- tk top level window.
         mainMenu -- top level menubar.
         mainWindow -- tk frame in the top level window.
@@ -72,7 +73,8 @@ class MainTk(Ui):
         self.title = title
         self._statusText = ''
         self.kwargs = kwargs
-        self.ywPrj = None
+        self.prjFile = None
+        self.novel = None
         self.root = tk.Tk()
         self.root.protocol("WM_DELETE_WINDOW", self.on_quit)
         self.root.title(title)
@@ -169,17 +171,20 @@ class MainTk(Ui):
         if not fileName:
             return False
 
-        if self.ywPrj is not None:
+        if self.prjFile is not None:
             self.close_project()
         self.kwargs['yw_last_open'] = fileName
-        self.ywPrj = self._YW_CLASS(fileName)
-        message = self.ywPrj.read()
-        if message.startswith(ERROR):
+        self.prjFile = self._YW_CLASS(fileName)
+        self.novel = Novel()
+        self.prjFile.novel = self.novel
+        try:
+            self.prjFile.read()
+        except Error as ex:
             self.close_project()
-            self.set_info_how(message)
+            self.set_info_how(f'!{str(ex)}')
             return False
 
-        self.show_path(f'{os.path.normpath(self.ywPrj.filePath)}')
+        self.show_path(f'{norm_path(self.prjFile.filePath)}')
         self.set_title()
         self.enable_menu()
         return True
@@ -189,12 +194,12 @@ class MainTk(Ui):
         
         'Document title by author - application'
         """
-        if self.ywPrj.title:
-            titleView = self.ywPrj.title
+        if self.novel.title:
+            titleView = self.novel.title
         else:
             titleView = _('Untitled project')
-        if self.ywPrj.authorName:
-            authorView = self.ywPrj.authorName
+        if self.novel.authorName:
+            authorView = self.novel.authorName
         else:
             authorView = _('Unknown author')
         self.root.title(f'{titleView} {_("by")} {authorView} - {self.title}')
@@ -211,7 +216,7 @@ class MainTk(Ui):
         
         To be extended by subclasses.
         """
-        self.ywPrj = None
+        self.prjFile = None
         self.root.title(self.title)
         self.show_status('')
         self.show_path('')
@@ -236,10 +241,10 @@ class MainTk(Ui):
         Display the message at the status bar.
         Overrides the superclass method.
         """
-        if message.startswith(ERROR):
+        if message.startswith('!'):
             self.statusBar.config(bg='red')
             self.statusBar.config(fg='white')
-            self.infoHowText = message.split(ERROR, maxsplit=1)[1].strip()
+            self.infoHowText = message.split('!', maxsplit=1)[1].strip()
         else:
             self.statusBar.config(bg='green')
             self.statusBar.config(fg='white')

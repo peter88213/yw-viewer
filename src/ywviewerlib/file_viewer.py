@@ -76,8 +76,8 @@ class FileViewer:
 
         # Get project description.
         self.prjDescription = []
-        if self._ui.ywPrj.desc:
-            self.prjDescription.append((self._ui.ywPrj.desc, ''))
+        if self._ui.novel.desc:
+            self.prjDescription.append((self._ui.novel.desc, ''))
         else:
             self.prjDescription.append((f'({_("No project description available")})', 'italic'))
         self.chapterTitles = []
@@ -88,12 +88,12 @@ class FileViewer:
         chapterCount = 0
         sceneCount = 0
         wordCount = 0
-        for chId in self._ui.ywPrj.srtChapters:
-            if self._ui.ywPrj.chapters[chId].chType != 0:
+        for chId in self._ui.novel.srtChapters:
+            if self._ui.novel.chapters[chId].chType != 0:
                 continue
 
             chapterCount += 1
-            if self._ui.ywPrj.chapters[chId].chLevel == 0:
+            if self._ui.novel.chapters[chId].chLevel == 0:
                 headingTag = RichTextTk.H2_TAG
                 listTag = ''
             else:
@@ -101,38 +101,38 @@ class FileViewer:
                 listTag = RichTextTk.BOLD_TAG
 
             # Get chapter titles.
-            if self._ui.ywPrj.chapters[chId].title:
-                self.chapterTitles.append((f'{self._ui.ywPrj.chapters[chId].title}\n', listTag))
-                sceneHeading = (f'{self._ui.ywPrj.chapters[chId].title}\n', headingTag)
+            if self._ui.novel.chapters[chId].title:
+                self.chapterTitles.append((f'{self._ui.novel.chapters[chId].title}\n', listTag))
+                sceneHeading = (f'{self._ui.novel.chapters[chId].title}\n', headingTag)
                 self.sceneTitles.append(sceneHeading)
 
             # Get chapter descriptions.
-            if self._ui.ywPrj.chapters[chId].desc:
-                self.chapterDescriptions.append((f'{self._ui.ywPrj.chapters[chId].title}\n', headingTag))
-                self.chapterDescriptions.append((f'{self._ui.ywPrj.chapters[chId].desc}\n', ''))
+            if self._ui.novel.chapters[chId].desc:
+                self.chapterDescriptions.append((f'{self._ui.novel.chapters[chId].title}\n', headingTag))
+                self.chapterDescriptions.append((f'{self._ui.novel.chapters[chId].desc}\n', ''))
 
-            for scId in self._ui.ywPrj.chapters[chId].srtScenes:
-                if self._ui.ywPrj.scenes[scId].scType == 0:
+            for scId in self._ui.novel.chapters[chId].srtScenes:
+                if self._ui.novel.scenes[scId].scType == 0:
                     sceneCount += 1
 
                     # Get scene titles.
-                    if self._ui.ywPrj.scenes[scId].title:
-                        self.sceneTitles.append((f'{self._ui.ywPrj.scenes[scId].title}\n', ''))
+                    if self._ui.novel.scenes[scId].title:
+                        self.sceneTitles.append((f'{self._ui.novel.scenes[scId].title}\n', ''))
 
                     # Get scene descriptions.
-                    if self._ui.ywPrj.scenes[scId].desc:
+                    if self._ui.novel.scenes[scId].desc:
                         self.sceneDescriptions.append(sceneHeading)
-                        self.sceneDescriptions.append((f'{self._ui.ywPrj.scenes[scId].desc}\n', ''))
+                        self.sceneDescriptions.append((f'{self._ui.novel.scenes[scId].desc}\n', ''))
 
                     # Get scene contents.
-                    if self._ui.ywPrj.scenes[scId].sceneContent:
+                    if self._ui.novel.scenes[scId].sceneContent:
                         self.sceneContents.append(sceneHeading)
-                        self.sceneContents.append((convert_from_yw(f'{self._ui.ywPrj.scenes[scId].sceneContent}\n'), ''))
+                        self.sceneContents.append((convert_from_yw(f'{self._ui.novel.scenes[scId].sceneContent}\n'), ''))
                     sceneHeading = ('* * *\n', RichTextTk.CENTER_TAG)
 
                     # Get scene word count.
-                    if self._ui.ywPrj.scenes[scId].wordCount:
-                        wordCount += self._ui.ywPrj.scenes[scId].wordCount
+                    if self._ui.novel.scenes[scId].wordCount:
+                        wordCount += self._ui.novel.scenes[scId].wordCount
         if not self.chapterTitles:
             self.chapterTitles.append((f'{_("No chapter titles available")})', RichTextTk.ITALIC_TAG))
         if not self.chapterDescriptions:
