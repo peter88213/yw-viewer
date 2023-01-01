@@ -8,6 +8,12 @@
 
 See the [GitHub "features" project](https://github.com/peter88213/yw-viewer/projects/1).
 
+### v2.4.5
+
+- Make it run with old Windows versions.
+
+Based on PyWriter v10.0.1
+
 ### v2.4.4
 
 - Update the PyWriter library.
