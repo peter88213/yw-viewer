@@ -32,7 +32,7 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 import os
 import sys
 from shutil import copyfile
-sys.path.insert(0, f'{os.getcwd()}/../../PyWriter/src')
+# sys.path.insert(0, f'{os.getcwd()}/../../PyWriter/src')
 import translations
 import msgfmt
 
