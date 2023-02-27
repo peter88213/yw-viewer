@@ -2,7 +2,7 @@
 
 All classes representing specific file formats inherit from this class.
 
-Copyright (c) 2022 Peter Triesberger
+Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/PyWriter
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
@@ -196,8 +196,8 @@ class Novel(BasicElement):
         If the locale is missing, set the system locale.  
         If the locale doesn't look plausible, set "no language".        
         """
-        if not self.languageCode or not self.countryCode:
-            # Language or country isn't set.
+        if not self.languageCode:
+            # Language isn't set.
             try:
                 sysLng, sysCtr = locale.getlocale()[0].split('_')
             except:

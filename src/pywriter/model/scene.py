@@ -1,6 +1,6 @@
 """Provide a class for yWriter scene representation.
 
-Copyright (c) 2022 Peter Triesberger
+Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/PyWriter
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
@@ -190,22 +190,14 @@ class Scene(BasicElement):
         # xml: <Items><ItemID>
 
         self.date = None
-        # str
+        # str (yyyy-mm-dd)
         # xml: <SpecificDateMode>-1
         # xml: <SpecificDateTime>1900-06-01 20:38:00
 
         self.time = None
-        # str
+        # str (hh:mm:ss)
         # xml: <SpecificDateMode>-1
         # xml: <SpecificDateTime>1900-06-01 20:38:00
-
-        self.minute = None
-        # str
-        # xml: <Minute>
-
-        self.hour = None
-        # str
-        # xml: <Hour>
 
         self.day = None
         # str

@@ -8,6 +8,12 @@
 
 See the [GitHub "Features" project](https://github.com/users/peter88213/projects/5/views/1).
 
+### v2.4.6
+
+- Update the PyWriter library.
+
+Based on PyWriter v12.1.1
+
 ### v2.4.5
 
 - Make it run with old Windows versions.

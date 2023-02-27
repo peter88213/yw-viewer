@@ -2,13 +2,14 @@
 
 yWriter version-specific file representations inherit from this class.
 
-Copyright (c) 2022 Peter Triesberger
+Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/PyWriter
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
 """
 import os
 import re
 from html import unescape
+from datetime import datetime
 import xml.etree.ElementTree as ET
 from pywriter.pywriter_globals import *
 from pywriter.model.chapter import Chapter
@@ -33,6 +34,10 @@ class Yw7File(File):
     Public instance variables:
         tree -- xml element tree of the yWriter project
         scenesSplit -- bool: True, if a scene or chapter is split during merging.
+        
+    Public class constants:
+        PRJ_KWVAR -- List of the names of the project keyword variables.
+        SCN_KWVAR -- List of the names of the scene keyword variables.
     """
     DESCRIPTION = _('yWriter 7 project')
     EXTENSION = '.yw7'
@@ -45,11 +50,11 @@ class Yw7File(File):
     # Names of xml elements containing CDATA.
     # ElementTree.write omits CDATA tags, so they have to be inserted afterwards.
 
-    _PRJ_KWVAR = [
+    PRJ_KWVAR = [
         'Field_LanguageCode',
         'Field_CountryCode',
         ]
-    _SCN_KWVAR = [
+    SCN_KWVAR = [
         'Field_SceneArcs',
         'Field_SceneStyle',
         ]
@@ -69,7 +74,6 @@ class Yw7File(File):
         self.tree = None
         self.scenesSplit = False
 
-        #--- Initialize custom keyword variables.
     def read(self):
         """Parse the yWriter xml file and get the instance variables.
         
@@ -118,12 +122,12 @@ class Yw7File(File):
                     self.novel.wordTarget = 0
 
             #--- Initialize custom keyword variables.
-            for fieldName in self._PRJ_KWVAR:
+            for fieldName in self.PRJ_KWVAR:
                 self.novel.kwVar[fieldName] = None
 
             #--- Read project custom fields.
             for prjFields in prj.findall('Fields'):
-                for fieldName in self._PRJ_KWVAR:
+                for fieldName in self.PRJ_KWVAR:
                     field = prjFields.find(fieldName)
                     if field is not None:
                         self.novel.kwVar[fieldName] = field.text
@@ -161,12 +165,12 @@ class Yw7File(File):
                         self.novel.locations[lcId].tags = self._strip_spaces(tags)
 
                 #--- Initialize custom keyword variables.
-                for fieldName in self._LOC_KWVAR:
+                for fieldName in self.LOC_KWVAR:
                     self.novel.locations[lcId].kwVar[fieldName] = None
 
                 #--- Read location custom fields.
                 for lcFields in loc.findall('Fields'):
-                    for fieldName in self._LOC_KWVAR:
+                    for fieldName in self.LOC_KWVAR:
                         field = lcFields.find(fieldName)
                         if field is not None:
                             self.novel.locations[lcId].kwVar[fieldName] = field.text
@@ -198,12 +202,12 @@ class Yw7File(File):
                         self.novel.items[itId].tags = self._strip_spaces(tags)
 
                 #--- Initialize custom keyword variables.
-                for fieldName in self._ITM_KWVAR:
+                for fieldName in self.ITM_KWVAR:
                     self.novel.items[itId].kwVar[fieldName] = None
 
                 #--- Read item custom fields.
                 for itFields in itm.findall('Fields'):
-                    for fieldName in self._ITM_KWVAR:
+                    for fieldName in self.ITM_KWVAR:
                         field = itFields.find(fieldName)
                         if field is not None:
                             self.novel.items[itId].kwVar[fieldName] = field.text
@@ -252,12 +256,12 @@ class Yw7File(File):
                     self.novel.characters[crId].isMajor = False
 
                 #--- Initialize custom keyword variables.
-                for fieldName in self._CRT_KWVAR:
+                for fieldName in self.CRT_KWVAR:
                     self.novel.characters[crId].kwVar[fieldName] = None
 
                 #--- Read character custom fields.
                 for crFields in crt.findall('Fields'):
-                    for fieldName in self._CRT_KWVAR:
+                    for fieldName in self.CRT_KWVAR:
                         field = crFields.find(fieldName)
                         if field is not None:
                             self.novel.characters[crId].kwVar[fieldName] = field.text
@@ -279,7 +283,7 @@ class Yw7File(File):
                             self.novel.projectNotes[pnId].desc = pnt.find('Desc').text
 
                     #--- Initialize project note custom fields.
-                    for fieldName in self._PNT_KWVAR:
+                    for fieldName in self.PNT_KWVAR:
                         self.novel.projectNotes[pnId].kwVar[fieldName] = None
 
                     #--- Read project note custom fields.
@@ -316,7 +320,7 @@ class Yw7File(File):
                 pass
 
         def read_scenes(root):
-            #--- Read attributes at scene level from the xml element tree.
+            """ Read attributes at scene level from the xml element tree."""
             for scn in root.iter('SCENE'):
                 scId = scn.find('ID').text
                 self.novel.scenes[scId] = Scene()
@@ -348,12 +352,12 @@ class Yw7File(File):
                 self.novel.scenes[scId].scType = 0
 
                 #--- Initialize custom keyword variables.
-                for fieldName in self._SCN_KWVAR:
+                for fieldName in self.SCN_KWVAR:
                     self.novel.scenes[scId].kwVar[fieldName] = None
 
                 for scFields in scn.findall('Fields'):
                     #--- Read scene custom fields.
-                    for fieldName in self._SCN_KWVAR:
+                    for fieldName in self.SCN_KWVAR:
                         field = scFields.find(fieldName)
                         if field is not None:
                             self.novel.scenes[scId].kwVar[fieldName] = field.text
@@ -368,7 +372,7 @@ class Yw7File(File):
                     if self.novel.scenes[scId].scType == 0:
                         self.novel.scenes[scId].scType = 3
 
-                #--- Export when RTF.
+                # Export when RTF.
                 if scn.find('ExportCondSpecific') is None:
                     self.novel.scenes[scId].doNotExport = False
                 elif scn.find('ExportWhenRTF') is not None:
@@ -404,23 +408,46 @@ class Yw7File(File):
                 else:
                     self.novel.scenes[scId].appendToPrev = False
 
+                #--- Scene start.
                 if scn.find('SpecificDateTime') is not None:
-                    dateTime = scn.find('SpecificDateTime').text.split(' ')
-                    for dt in dateTime:
-                        if '-' in dt:
-                            self.novel.scenes[scId].date = dt
-                        elif ':' in dt:
-                            self.novel.scenes[scId].time = dt
+                    dateTimeStr = scn.find('SpecificDateTime').text
+
+                    # Check SpecificDateTime for ISO compliance.
+                    try:
+                        dateTime = datetime.fromisoformat(dateTimeStr)
+                    except:
+                        self.novel.scenes[scId].date = ''
+                        self.novel.scenes[scId].time = ''
+                    else:
+                        startDateTime = dateTime.isoformat().split('T')
+                        self.novel.scenes[scId].date = startDateTime[0]
+                        self.novel.scenes[scId].time = startDateTime[1]
                 else:
                     if scn.find('Day') is not None:
-                        self.novel.scenes[scId].day = scn.find('Day').text
+                        day = scn.find('Day').text
 
+                        # Check if Day represents an integer.
+                        try:
+                            int(day)
+                        except ValueError:
+                            day = ''
+                        self.novel.scenes[scId].day = day
+
+                    hasUnspecificTime = False
                     if scn.find('Hour') is not None:
-                        self.novel.scenes[scId].hour = scn.find('Hour').text
-
+                        hour = scn.find('Hour').text.zfill(2)
+                        hasUnspecificTime = True
+                    else:
+                        hour = '00'
                     if scn.find('Minute') is not None:
-                        self.novel.scenes[scId].minute = scn.find('Minute').text
+                        minute = scn.find('Minute').text.zfill(2)
+                        hasUnspecificTime = True
+                    else:
+                        minute = '00'
+                    if hasUnspecificTime:
+                        self.novel.scenes[scId].time = f'{hour}:{minute}:00'
 
+                #--- Scene duration.
                 if scn.find('LastsDays') is not None:
                     self.novel.scenes[scId].lastsDays = scn.find('LastsDays').text
 
@@ -538,7 +565,7 @@ class Yw7File(File):
                         self.novel.chapters[chId].suppressChapterTitle = True
 
                 #--- Initialize custom keyword variables.
-                for fieldName in self._CHP_KWVAR:
+                for fieldName in self.CHP_KWVAR:
                     self.novel.chapters[chId].kwVar[fieldName] = None
 
                 #--- Read chapter fields.
@@ -556,7 +583,7 @@ class Yw7File(File):
                             self.novel.chapters[chId].suppressChapterBreak = True
 
                     #--- Read chapter custom fields.
-                    for fieldName in self._CHP_KWVAR:
+                    for fieldName in self.CHP_KWVAR:
                         field = chFields.find(fieldName)
                         if field is not None:
                             self.novel.chapters[chId].kwVar[fieldName] = field.text
@@ -570,7 +597,7 @@ class Yw7File(File):
                             self.novel.chapters[chId].srtScenes.append(scId)
 
         #--- Begin reading.
-        for field in self._PRJ_KWVAR:
+        for field in self.PRJ_KWVAR:
             self.novel.kwVar[field] = None
 
         if self.is_locked():
@@ -646,6 +673,24 @@ class Yw7File(File):
             return index
 
         def build_scene_subtree(xmlScn, prjScn):
+
+            def remove_date_time():
+                """Delete all scene start data."""
+                if xmlScn.find('SpecificDateTime') is not None:
+                    xmlScn.remove(xmlScn.find('SpecificDateTime'))
+
+                if xmlScn.find('SpecificDateMode') is not None:
+                    xmlScn.remove(xmlScn.find('SpecificDateMode'))
+
+                if xmlScn.find('Day') is not None:
+                    xmlScn.remove(xmlScn.find('Day'))
+
+                if xmlScn.find('Hour') is not None:
+                    xmlScn.remove(xmlScn.find('Hour'))
+
+                if xmlScn.find('Minute') is not None:
+                    xmlScn.remove(xmlScn.find('Minute'))
+
             i = 1
             i = set_element(xmlScn, 'Title', prjScn.title, i)
 
@@ -659,7 +704,8 @@ class Yw7File(File):
                 try:
                     xmlScn.find('Desc').text = prjScn.desc
                 except(AttributeError):
-                    ET.SubElement(xmlScn, 'Desc').text = prjScn.desc
+                    if prjScn.desc:
+                        ET.SubElement(xmlScn, 'Desc').text = prjScn.desc
 
             if xmlScn.find('SceneContent') is None:
                 ET.SubElement(xmlScn, 'SceneContent').text = prjScn.sceneContent
@@ -715,7 +761,7 @@ class Yw7File(File):
                 ET.SubElement(scFields, 'Field_SceneType').text = ySceneType
 
             #--- Write scene custom fields.
-            for field in self._SCN_KWVAR:
+            for field in self.SCN_KWVAR:
                 if self.novel.scenes[scId].kwVar.get(field, None):
                     if scFields is None:
                         scFields = ET.SubElement(xmlScn, 'Fields')
@@ -739,37 +785,43 @@ class Yw7File(File):
                 try:
                     xmlScn.find('Notes').text = prjScn.notes
                 except(AttributeError):
-                    ET.SubElement(xmlScn, 'Notes').text = prjScn.notes
+                    if prjScn.notes:
+                        ET.SubElement(xmlScn, 'Notes').text = prjScn.notes
 
             if prjScn.tags is not None:
                 try:
                     xmlScn.find('Tags').text = list_to_string(prjScn.tags)
                 except(AttributeError):
-                    ET.SubElement(xmlScn, 'Tags').text = list_to_string(prjScn.tags)
+                    if prjScn.tags:
+                        ET.SubElement(xmlScn, 'Tags').text = list_to_string(prjScn.tags)
 
             if prjScn.field1 is not None:
                 try:
                     xmlScn.find('Field1').text = prjScn.field1
                 except(AttributeError):
-                    ET.SubElement(xmlScn, 'Field1').text = prjScn.field1
+                    if prjScn.field1:
+                        ET.SubElement(xmlScn, 'Field1').text = prjScn.field1
 
             if prjScn.field2 is not None:
                 try:
                     xmlScn.find('Field2').text = prjScn.field2
                 except(AttributeError):
-                    ET.SubElement(xmlScn, 'Field2').text = prjScn.field2
+                    if prjScn.field2:
+                        ET.SubElement(xmlScn, 'Field2').text = prjScn.field2
 
             if prjScn.field3 is not None:
                 try:
                     xmlScn.find('Field3').text = prjScn.field3
                 except(AttributeError):
-                    ET.SubElement(xmlScn, 'Field3').text = prjScn.field3
+                    if prjScn.field3:
+                        ET.SubElement(xmlScn, 'Field3').text = prjScn.field3
 
             if prjScn.field4 is not None:
                 try:
                     xmlScn.find('Field4').text = prjScn.field4
                 except(AttributeError):
-                    ET.SubElement(xmlScn, 'Field4').text = prjScn.field4
+                    if prjScn.field4:
+                        ET.SubElement(xmlScn, 'Field4').text = prjScn.field4
 
             if prjScn.appendToPrev:
                 if xmlScn.find('AppendToPrev') is None:
@@ -777,10 +829,18 @@ class Yw7File(File):
             elif xmlScn.find('AppendToPrev') is not None:
                 xmlScn.remove(xmlScn.find('AppendToPrev'))
 
-            # Date/time information
+            #--- Write scene start.
             if (prjScn.date is not None) and (prjScn.time is not None):
-                dateTime = f'{prjScn.date} {prjScn.time}'
-                if xmlScn.find('SpecificDateTime') is not None:
+                separator = ' '
+                dateTime = f'{prjScn.date}{separator}{prjScn.time}'
+
+                # Remove scene start data from XML, if date and time are empty strings.
+                if dateTime == separator:
+                    remove_date_time()
+
+                elif xmlScn.find('SpecificDateTime') is not None:
+                    if dateTime.count(':') < 2:
+                        dateTime = f'{dateTime}:00'
                     xmlScn.find('SpecificDateTime').text = dateTime
                 else:
                     ET.SubElement(xmlScn, 'SpecificDateTime').text = dateTime
@@ -795,46 +855,55 @@ class Yw7File(File):
                     if xmlScn.find('Minute') is not None:
                         xmlScn.remove(xmlScn.find('Minute'))
 
-            elif (prjScn.day is not None) or (prjScn.hour is not None) or (prjScn.minute is not None):
+            elif (prjScn.day is not None) or (prjScn.time is not None):
 
-                if xmlScn.find('SpecificDateTime') is not None:
-                    xmlScn.remove(xmlScn.find('SpecificDateTime'))
+                # Remove scene start data from XML, if day and time are empty strings.
+                if not prjScn.day and not prjScn.time:
+                    remove_date_time()
 
-                if xmlScn.find('SpecificDateMode') is not None:
-                    xmlScn.remove(xmlScn.find('SpecificDateMode'))
-                if prjScn.day is not None:
-                    try:
-                        xmlScn.find('Day').text = prjScn.day
-                    except(AttributeError):
-                        ET.SubElement(xmlScn, 'Day').text = prjScn.day
-                if prjScn.hour is not None:
-                    try:
-                        xmlScn.find('Hour').text = prjScn.hour
-                    except(AttributeError):
-                        ET.SubElement(xmlScn, 'Hour').text = prjScn.hour
-                if prjScn.minute is not None:
-                    try:
-                        xmlScn.find('Minute').text = prjScn.minute
-                    except(AttributeError):
-                        ET.SubElement(xmlScn, 'Minute').text = prjScn.minute
+                else:
+                    if xmlScn.find('SpecificDateTime') is not None:
+                        xmlScn.remove(xmlScn.find('SpecificDateTime'))
 
+                    if xmlScn.find('SpecificDateMode') is not None:
+                        xmlScn.remove(xmlScn.find('SpecificDateMode'))
+                    if prjScn.day is not None:
+                        try:
+                            xmlScn.find('Day').text = prjScn.day
+                        except(AttributeError):
+                            ET.SubElement(xmlScn, 'Day').text = prjScn.day
+                    if prjScn.time is not None:
+                        hours, minutes, seconds = prjScn.time.split(':')
+                        try:
+                            xmlScn.find('Hour').text = hours
+                        except(AttributeError):
+                            ET.SubElement(xmlScn, 'Hour').text = hours
+                        try:
+                            xmlScn.find('Minute').text = minutes
+                        except(AttributeError):
+                            ET.SubElement(xmlScn, 'Minute').text = minutes
+
+            #--- Write scene duration.
             if prjScn.lastsDays is not None:
                 try:
                     xmlScn.find('LastsDays').text = prjScn.lastsDays
                 except(AttributeError):
-                    ET.SubElement(xmlScn, 'LastsDays').text = prjScn.lastsDays
+                    if prjScn.lastsDays:
+                        ET.SubElement(xmlScn, 'LastsDays').text = prjScn.lastsDays
 
             if prjScn.lastsHours is not None:
                 try:
                     xmlScn.find('LastsHours').text = prjScn.lastsHours
                 except(AttributeError):
-                    ET.SubElement(xmlScn, 'LastsHours').text = prjScn.lastsHours
+                    if prjScn.lastsHours:
+                        ET.SubElement(xmlScn, 'LastsHours').text = prjScn.lastsHours
 
             if prjScn.lastsMinutes is not None:
                 try:
                     xmlScn.find('LastsMinutes').text = prjScn.lastsMinutes
                 except(AttributeError):
-                    ET.SubElement(xmlScn, 'LastsMinutes').text = prjScn.lastsMinutes
+                    if prjScn.lastsMinutes:
+                        ET.SubElement(xmlScn, 'LastsMinutes').text = prjScn.lastsMinutes
 
             # Plot related information
             if prjScn.isReactionScene:
@@ -853,25 +922,29 @@ class Yw7File(File):
                 try:
                     xmlScn.find('Goal').text = prjScn.goal
                 except(AttributeError):
-                    ET.SubElement(xmlScn, 'Goal').text = prjScn.goal
+                    if prjScn.goal:
+                        ET.SubElement(xmlScn, 'Goal').text = prjScn.goal
 
             if prjScn.conflict is not None:
                 try:
                     xmlScn.find('Conflict').text = prjScn.conflict
                 except(AttributeError):
-                    ET.SubElement(xmlScn, 'Conflict').text = prjScn.conflict
+                    if prjScn.conflict:
+                        ET.SubElement(xmlScn, 'Conflict').text = prjScn.conflict
 
             if prjScn.outcome is not None:
                 try:
                     xmlScn.find('Outcome').text = prjScn.outcome
                 except(AttributeError):
-                    ET.SubElement(xmlScn, 'Outcome').text = prjScn.outcome
+                    if prjScn.outcome:
+                        ET.SubElement(xmlScn, 'Outcome').text = prjScn.outcome
 
             if prjScn.image is not None:
                 try:
                     xmlScn.find('ImageFile').text = prjScn.image
                 except(AttributeError):
-                    ET.SubElement(xmlScn, 'ImageFile').text = prjScn.image
+                    if prjScn.image:
+                        ET.SubElement(xmlScn, 'ImageFile').text = prjScn.image
 
             #--- Characters/locations/items
             if prjScn.characters is not None:
@@ -903,6 +976,48 @@ class Yw7File(File):
                     items = ET.SubElement(xmlScn, 'Items')
                 for itId in prjScn.items:
                     ET.SubElement(items, 'ItemID').text = itId
+
+            ''' Removing empty characters/locations/items entries
+            
+            if prjScn.characters is not None:
+                characters = xmlScn.find('Characters')
+                if characters is not None:
+                    for oldCrId in characters.findall('CharID'):
+                        characters.remove(oldCrId)
+                if prjScn.characters:
+                    if characters is None:
+                        characters = ET.SubElement(xmlScn, 'Characters')
+                    for crId in prjScn.characters:
+                        ET.SubElement(characters, 'CharID').text = crId
+                elif characters is not None:
+                    xmlScn.remove(xmlScn.find('Characters'))
+
+            if prjScn.locations is not None:
+                locations = xmlScn.find('Locations')
+                if locations is not None:
+                    for oldLcId in locations.findall('LocID'):
+                        locations.remove(oldLcId)
+                if prjScn.locations:
+                    if locations is None:
+                        locations = ET.SubElement(xmlScn, 'Locations')
+                    for lcId in prjScn.locations:
+                        ET.SubElement(locations, 'LocID').text = lcId
+                elif locations is not None:
+                    xmlScn.remove(xmlScn.find('Locations'))
+
+            if prjScn.items is not None:
+                items = xmlScn.find('Items')
+                if items is not None:
+                    for oldItId in items.findall('ItemID'):
+                        items.remove(oldItId)
+                if prjScn.items:
+                    if items is None:
+                        items = ET.SubElement(xmlScn, 'Items')
+                    for itId in prjScn.items:
+                        ET.SubElement(items, 'ItemID').text = itId
+                elif items is not None:
+                    xmlScn.remove(xmlScn.find('Items'))
+            '''
 
         def build_chapter_subtree(xmlChp, prjChp, sortOrder):
             # This is how yWriter 7.1.3.0 writes the chapter type:
@@ -980,7 +1095,7 @@ class Yw7File(File):
                     chFields.remove(chFields.find('Field_IsTrash'))
 
             #--- Write chapter custom fields.
-            for field in self._CHP_KWVAR:
+            for field in self.CHP_KWVAR:
                 if prjChp.kwVar.get(field, None):
                     if chFields is None:
                         chFields = ET.Element('Fields')
@@ -1044,7 +1159,7 @@ class Yw7File(File):
 
             #--- Write location custom fields.
             lcFields = xmlLoc.find('Fields')
-            for field in self._LOC_KWVAR:
+            for field in self.LOC_KWVAR:
                 if self.novel.locations[lcId].kwVar.get(field, None):
                     if lcFields is None:
                         lcFields = ET.SubElement(xmlLoc, 'Fields')
@@ -1099,7 +1214,7 @@ class Yw7File(File):
 
             #--- Write item custom fields.
             itFields = xmlItm.find('Fields')
-            for field in self._ITM_KWVAR:
+            for field in self.ITM_KWVAR:
                 if self.novel.items[itId].kwVar.get(field, None):
                     if itFields is None:
                         itFields = ET.SubElement(xmlItm, 'Fields')
@@ -1148,7 +1263,7 @@ class Yw7File(File):
 
             #--- Write character custom fields.
             crFields = xmlCrt.find('Fields')
-            for field in self._CRT_KWVAR:
+            for field in self.CRT_KWVAR:
                 if self.novel.characters[crId].kwVar.get(field, None):
                     if crFields is None:
                         crFields = ET.SubElement(xmlCrt, 'Fields')
@@ -1237,7 +1352,7 @@ class Yw7File(File):
             self.novel.kwVar['Field_CountryCode'] = None
 
             prjFields = xmlPrj.find('Fields')
-            for field in self._PRJ_KWVAR:
+            for field in self.PRJ_KWVAR:
                 setting = self.novel.kwVar.get(field, None)
                 if setting:
                     if prjFields is None:
@@ -1513,31 +1628,6 @@ class Yw7File(File):
         for line in lines:
             stripped.append(line.strip())
         return stripped
-
-    def reset_custom_variables(self):
-        """Set custom keyword variables to an empty string.
-        
-        Thus the write() method will remove the associated custom fields
-        from the .yw7 XML file. 
-        Return True, if a keyword variable has changed (i.e information is lost).
-        """
-        hasChanged = False
-        for field in self._PRJ_KWVAR:
-            if self.novel.kwVar.get(field, None):
-                self.novel.kwVar[field] = ''
-                hasChanged = True
-        for chId in self.novel.chapters:
-            # Deliberatey not iterate srtChapters: make sure to get all chapters.
-            for field in self._CHP_KWVAR:
-                if self.novel.chapters[chId].kwVar.get(field, None):
-                    self.novel.chapters[chId].kwVar[field] = ''
-                    hasChanged = True
-        for scId in self.novel.scenes:
-            for field in self._SCN_KWVAR:
-                if self.novel.scenes[scId].kwVar.get(field, None):
-                    self.novel.scenes[scId].kwVar[field] = ''
-                    hasChanged = True
-        return hasChanged
 
     def adjust_scene_types(self):
         """Make sure that scenes in non-"Normal" chapters inherit the chapter's type."""
