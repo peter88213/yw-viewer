@@ -11,11 +11,11 @@ class Character(WorldElement):
     """yWriter character representation.
 
     Public instance variables:
-        notes -- str: character notes.
-        bio -- str: character biography.
-        goals -- str: character's goals in the story.
-        fullName -- str: full name (the title inherited may be a short name).
-        isMajor -- bool: True, if it's a major character.
+        notes: str -- character notes.
+        bio: str -- character biography.
+        goals: str -- character's goals in the story.
+        fullName: str -- full name (the title inherited may be a short name).
+        isMajor: bool -- True, if it's a major character.
     """
     MAJOR_MARKER = 'Major'
     MINOR_MARKER = 'Minor'
@@ -25,21 +25,16 @@ class Character(WorldElement):
         super().__init__()
 
         self.notes = None
-        # str
         # xml: <Notes>
 
         self.bio = None
-        # str
         # xml: <Bio>
 
         self.goals = None
-        # str
         # xml: <Goals>
 
         self.fullName = None
-        # str
         # xml: <FullName>
 
         self.isMajor = None
-        # bool
         # xml: <Major>

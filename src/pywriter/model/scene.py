@@ -27,38 +27,46 @@ class Scene(BasicElement):
     """yWriter scene representation.
     
     Public instance variables:
-        sceneContent -- str: scene content (property with getter and setter).
-        wordCount - int: word count (derived; updated by the sceneContent setter).
-        letterCount - int: letter count (derived; updated by the sceneContent setter).
-        scType -- int: Scene type (Normal/Notes/Todo/Unused).
-        doNotExport -- bool: True if the scene is not to be exported to RTF.
-        status -- int: scene status (Outline/Draft/1st Edit/2nd Edit/Done).
-        notes -- str: scene notes in a single string.
+        sceneContent: str -- scene content (property with getter and setter).
+        wordCount: int -- word count (derived; updated by the sceneContent setter).
+        letterCount: int -- letter count (derived; updated by the sceneContent setter).
+        scType: int -- Scene type (Normal/Notes/Todo/Unused).
+        doNotExport: bool -- True if the scene is not to be exported to RTF.
+        status: int -- scene status (Outline/Draft/1st Edit/2nd Edit/Done).
+        notes: str -- scene notes in a single string.
         tags -- list of scene tags. 
-        field1 -- int: scene ratings field 1.
-        field2 -- int: scene ratings field 2.
-        field3 -- int: scene ratings field 3.
-        field4 -- int: scene ratings field 4.
-        appendToPrev -- bool: if True, append the scene without a divider to the previous scene.
-        isReactionScene -- bool: if True, the scene is "reaction". Otherwise, it's "action". 
-        isSubPlot -- bool: if True, the scene belongs to a sub-plot. Otherwise it's main plot.  
-        goal -- str: the main actor's scene goal. 
-        conflict -- str: what hinders the main actor to achieve his goal.
-        outcome -- str: what comes out at the end of the scene.
+        field1: int -- scene ratings field 1.
+        field2: int -- scene ratings field 2.
+        field3: int -- scene ratings field 3.
+        field4: int -- scene ratings field 4.
+        appendToPrev: bool -- if True, append the scene without a divider to the previous scene.
+        isReactionScene: bool -- if True, the scene is "reaction". Otherwise, it's "action". 
+        isSubPlot: bool -- if True, the scene belongs to a sub-plot. Otherwise it's main plot.  
+        goal: str -- the main actor's scene goal. 
+        conflict: str -- what hinders the main actor to achieve his goal.
+        outcome: str -- what comes out at the end of the scene.
         characters -- list of character IDs related to this scene.
         locations -- list of location IDs related to this scene. 
         items -- list of item IDs related to this scene.
-        date -- str: specific start date in ISO format (yyyy-mm-dd).
-        time -- str: specific start time in ISO format (hh:mm).
-        minute -- str: unspecific start time: minutes.
-        hour -- str: unspecific start time: hour.
-        day -- str: unspecific start time: day.
-        lastsMinutes -- str: scene duration: minutes.
-        lastsHours -- str: scene duration: hours.
-        lastsDays -- str: scene duration: days. 
-        image -- str:  path to an image related to the scene. 
+        date: str -- specific start date in ISO format (yyyy-mm-dd).
+        time: str -- specific start time in ISO format (hh:mm).
+        minute: str -- unspecific start time: minutes.
+        hour: str -- unspecific start time: hour.
+        day: str -- unspecific start time: day.
+        lastsMinutes: str -- scene duration: minutes.
+        lastsHours: str -- scene duration: hours.
+        lastsDays: str -- scene duration: days. 
+        image: str --  path to an image related to the scene. 
+        scnArcs: str -- Semicolon-separated arc titles.
+        scnMode: str -- Mode of discourse (Narration/Dramatic action/Dialogue/Description/Exposition).
     """
-    STATUS = (None, 'Outline', 'Draft', '1st Edit', '2nd Edit', 'Done')
+    STATUS = [None,
+                    'Outline',
+                    'Draft',
+                    '1st Edit',
+                    '2nd Edit',
+                    'Done'
+                    ]
     # Emulate an enumeration for the scene status
     # Since the items are used to replace text,
     # they may contain spaces. This is why Enum cannot be used here.
@@ -76,16 +84,14 @@ class Scene(BasicElement):
         super().__init__()
 
         self._sceneContent = None
-        # str
         # xml: <SceneContent>
         # Scene text with yW7 raw markup.
 
         self.wordCount = 0
-        # int # xml: <WordCount>
+        # xml: <WordCount>
         # To be updated by the sceneContent setter
 
         self.letterCount = 0
-        # int
         # xml: <LetterCount>
         # To be updated by the sceneContent setter
 
@@ -116,11 +122,9 @@ class Scene(BasicElement):
         # Unused | -1     | 0              | 3
 
         self.doNotExport = None
-        # bool
         # xml: <ExportCondSpecific><ExportWhenRTF>
 
         self.status = None
-        # int
         # xml: <Status>
         # 1 - Outline
         # 2 - Draft
@@ -130,115 +134,92 @@ class Scene(BasicElement):
         # See also the STATUS list for conversion.
 
         self.notes = None
-        # str
         # xml: <Notes>
 
         self.tags = None
-        # list of str
         # xml: <Tags>
 
         self.field1 = None
-        # str
         # xml: <Field1>
 
         self.field2 = None
-        # str
         # xml: <Field2>
 
         self.field3 = None
-        # str
         # xml: <Field3>
 
         self.field4 = None
-        # str
         # xml: <Field4>
 
         self.appendToPrev = None
-        # bool
         # xml: <AppendToPrev> -1
 
         self.isReactionScene = None
-        # bool
         # xml: <ReactionScene> -1
 
         self.isSubPlot = None
-        # bool
         # xml: <SubPlot> -1
 
         self.goal = None
-        # str
         # xml: <Goal>
 
         self.conflict = None
-        # str
         # xml: <Conflict>
 
         self.outcome = None
-        # str
         # xml: <Outcome>
 
         self.characters = None
-        # list of str
         # xml: <Characters><CharID>
 
         self.locations = None
-        # list of str
         # xml: <Locations><LocID>
 
         self.items = None
-        # list of str
         # xml: <Items><ItemID>
 
         self.date = None
-        # str (yyyy-mm-dd)
+        # yyyy-mm-dd
         # xml: <SpecificDateMode>-1
         # xml: <SpecificDateTime>1900-06-01 20:38:00
 
         self.time = None
-        # str (hh:mm:ss)
+        # hh:mm:ss
         # xml: <SpecificDateMode>-1
         # xml: <SpecificDateTime>1900-06-01 20:38:00
 
         self.day = None
-        # str
         # xml: <Day>
 
         self.lastsMinutes = None
-        # str
         # xml: <LastsMinutes>
 
         self.lastsHours = None
-        # str
         # xml: <LastsHours>
 
         self.lastsDays = None
-        # str
         # xml: <LastsDays>
 
         self.image = None
-        # str
         # xml: <ImageFile>
 
         self.scnArcs = None
-        # str
         # xml: <Field_SceneArcs>
         # Semicolon-separated arc titles.
         # Example: 'A' for 'A-Storyline'.
         # If the scene is "Todo" type, an assigned single arc
         # should be defined by it.
 
-        self.scnStyle = None
-        # str
-        # xml: <Field_SceneStyle>
-        # May be 'explaining', 'descriptive', or 'summarizing'.
-        # None is the default, meaning 'staged'.
+        self.scnMode = None
+        # xml: <Field_SceneMode>
+        # Mode of discourse.
 
     @property
     def sceneContent(self):
         return self._sceneContent
 
     @sceneContent.setter
-    def sceneContent(self, text):
+    def sceneContent(self, text: str):
         """Set sceneContent updating word count and letter count."""
         self._sceneContent = text
         text = ADDITIONAL_WORD_LIMITS.sub(' ', text)

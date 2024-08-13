@@ -11,9 +11,9 @@ class WorldElement(BasicElement):
     """Story world element representation (may be location or item).
     
     Public instance variables:
-        image -- str: image file path.
+        image: str -- image file path.
         tags -- list of tags.
-        aka -- str: alternate name.
+        aka: str -- alternate name.
     """
 
     def __init__(self):
@@ -24,14 +24,11 @@ class WorldElement(BasicElement):
         super().__init__()
 
         self.image = None
-        # str
         # xml: <ImageFile>
 
         self.tags = None
-        # list of str
         # xml: <Tags>
 
         self.aka = None
-        # str
         # xml: <AKA>
 

@@ -1,7 +1,5 @@
 """Provide a class for a novel representation.
 
-All classes representing specific file formats inherit from this class.
-
 Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/PyWriter
 Published under the MIT License (https://opensource.org/licenses/mit-license.php)
@@ -26,23 +24,23 @@ class Novel(BasicElement):
         check_locale() -- Check the document's locale (language code and country code).
 
     Public instance variables:
-        authorName -- str: author's name.
-        author bio -- str: information about the author.
-        fieldTitle1 -- str: scene rating field title 1.
-        fieldTitle2 -- str: scene rating field title 2.
-        fieldTitle3 -- str: scene rating field title 3.
-        fieldTitle4 -- str: scene rating field title 4.
-        chapters -- dict: (key: ID; value: chapter instance).
-        scenes -- dict: (key: ID, value: scene instance).
-        srtChapters -- list: the novel's sorted chapter IDs.
-        locations -- dict: (key: ID, value: WorldElement instance).
-        srtLocations -- list: the novel's sorted location IDs.
-        items -- dict: (key: ID, value: WorldElement instance).
-        srtItems -- list: the novel's sorted item IDs.
-        characters -- dict: (key: ID, value: character instance).
-        srtCharacters -- list: the novel's sorted character IDs.
-        projectNotes -- dict:  (key: ID, value: projectNote instance).
-        srtPrjNotes -- list: the novel's sorted project notes.
+        authorName -- author's name.
+        author bio -- information about the author.
+        fieldTitle1 -- scene rating field title 1.
+        fieldTitle2 -- scene rating field title 2.
+        fieldTitle3 -- scene rating field title 3.
+        fieldTitle4 -- scene rating field title 4.
+        chapters: dict -- (key: ID; value: chapter instance).
+        scenes: dict -- (key: ID, value: scene instance).
+        srtChapters: list -- the novel's sorted chapter IDs.
+        locations: dict -- (key: ID, value: WorldElement instance).
+        srtLocations: list -- the novel's sorted location IDs.
+        items: dict -- (key: ID, value: WorldElement instance).
+        srtItems: list -- the novel's sorted item IDs.
+        characters: dict -- (key: ID, value: character instance).
+        srtCharacters: list -- the novel's sorted character IDs.
+        projectNotes: dict --  (key: ID, value: projectNote instance).
+        srtPrjNotes: list -- the novel's sorted project notes.
     """
 
     def __init__(self):
@@ -53,61 +51,48 @@ class Novel(BasicElement):
         super().__init__()
 
         self.authorName = None
-        # str
         # xml: <PROJECT><AuthorName>
 
         self.authorBio = None
-        # str
         # xml: <PROJECT><Bio>
 
         self.fieldTitle1 = None
-        # str
         # xml: <PROJECT><FieldTitle1>
 
         self.fieldTitle2 = None
-        # str
         # xml: <PROJECT><FieldTitle2>
 
         self.fieldTitle3 = None
-        # str
         # xml: <PROJECT><FieldTitle3>
 
         self.fieldTitle4 = None
-        # str
         # xml: <PROJECT><FieldTitle4>
 
         self.wordTarget = None
-        # int
         # xml: <PROJECT><wordTarget>
 
         self.wordCountStart = None
-        # int
         # xml: <PROJECT><wordCountStart>
 
         self.wordTarget = None
-        # int
         # xml: <PROJECT><wordCountStart>
 
         self.chapters = {}
-        # dict
         # xml: <CHAPTERS><CHAPTER><ID>
         # key = chapter ID, value = Chapter instance.
         # The order of the elements does not matter (the novel's order of the chapters is defined by srtChapters)
 
         self.scenes = {}
-        # dict
         # xml: <SCENES><SCENE><ID>
         # key = scene ID, value = Scene instance.
         # The order of the elements does not matter (the novel's order of the scenes is defined by
         # the order of the chapters and the order of the scenes within the chapters)
 
         self.languages = None
-        # list of str
         # List of non-document languages occurring as scene markup.
         # Format: ll-CC, where ll is the language code, and CC is the country code.
 
         self.srtChapters = []
-        # list of str
         # The novel's chapter IDs. The order of its elements corresponds to the novel's order of the chapters.
 
         self.locations = {}
@@ -117,46 +102,37 @@ class Novel(BasicElement):
         # The order of the elements does not matter.
 
         self.srtLocations = []
-        # list of str
         # The novel's location IDs. The order of its elements
         # corresponds to the XML project file.
 
         self.items = {}
-        # dict
         # xml: <ITEMS>
         # key = item ID, value = WorldElement instance.
         # The order of the elements does not matter.
 
         self.srtItems = []
-        # list of str
         # The novel's item IDs. The order of its elements corresponds to the XML project file.
 
         self.characters = {}
-        # dict
         # xml: <CHARACTERS>
         # key = character ID, value = Character instance.
         # The order of the elements does not matter.
 
         self.srtCharacters = []
-        # list of str
         # The novel's character IDs. The order of its elements corresponds to the XML project file.
 
         self.projectNotes = {}
-        # dict
         # xml: <PROJECTNOTES>
         # key = note ID, value = note instance.
         # The order of the elements does not matter.
 
         self.srtPrjNotes = []
-        # list of str
         # The novel's projectNote IDs. The order of its elements corresponds to the XML project file.
 
         self.languageCode = None
-        # str
         # Language code acc. to ISO 639-1.
 
         self.countryCode = None
-        # str
         # Country code acc. to ISO 3166-2.
 
     def get_languages(self):
@@ -169,7 +145,7 @@ class Novel(BasicElement):
         """
 
         def languages(text):
-            """Return a generator object with the language codes appearing in text.
+            """Return the language codes appearing in text.
             
             Example:
             - language markup: 'Standard text [lang=en-AU]Australian text[/lang=en-AU].'
