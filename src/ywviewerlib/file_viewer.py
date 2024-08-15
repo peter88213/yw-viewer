@@ -72,7 +72,7 @@ class FileViewer:
 
         def convert_from_yw(text):
             """Remove yw7 markup from text."""
-            return re.sub('\[\/*[i|b|h|c|r|s|u]\d*\]', '', text)
+            return re.sub(r'\[\/*[i|b|h|c|r|s|u]\d*\]', '', text)
 
         # Get project description.
         self.prjDescription = []
