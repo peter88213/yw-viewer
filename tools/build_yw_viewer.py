@@ -19,10 +19,10 @@ TARGET_FILE = f'{BUILD}yw_viewer.pyw'
 
 def main():
     os.makedirs(BUILD, exist_ok=True)
-    # inliner.run(SOURCE_FILE, TARGET_FILE, 'ywviewerlib', '../src/')
-    # inliner.run(TARGET_FILE, TARGET_FILE, 'pywriter', '../src/')
-    inliner.run(SOURCE_FILE, TARGET_FILE, 'ywviewerlib', '../src/', copyPyWriter=True)
-    inliner.run(TARGET_FILE, TARGET_FILE, 'pywriter', '../../PyWriter/src/', copyPyWriter=True)
+    inliner.run(SOURCE_FILE, TARGET_FILE, 'ywviewerlib', '../src/')
+    inliner.run(TARGET_FILE, TARGET_FILE, 'pywriter', '../src/')
+    # inliner.run(SOURCE_FILE, TARGET_FILE, 'ywviewerlib', '../src/', copyPyWriter=True)
+    # inliner.run(TARGET_FILE, TARGET_FILE, 'pywriter', '../../PyWriter/src/', copyPyWriter=True)
     print('Done.')
 
 
