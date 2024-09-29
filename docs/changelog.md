@@ -4,9 +4,6 @@
 
 ## Changelog
 
-### Planned features
-
-See the [GitHub "Features" project](https://github.com/users/peter88213/projects/5/views/1).
 
 ### Version 2.4.9
 
